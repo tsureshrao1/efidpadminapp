@@ -5,8 +5,8 @@ const MainLayout = ({ children }) => {
         <>
             <AdminHeaderSection></AdminHeaderSection>
                 <div className="container" style={{
-                    paddingTop: '170px',
-                    minHeight: 'calc(100vh - 70px)'
+                    paddingTop: '132px',
+                    minHeight: 'calc(100vh - 74px)'
                 }}>
                     {children}
                 </div>

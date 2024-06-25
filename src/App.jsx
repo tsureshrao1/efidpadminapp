@@ -9,6 +9,7 @@ import ProtectedRoutes from './routes';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { NAV_ROUTES, NAV_MODULE_NAME } from './utils/constants';
+import EventsRequests from './pages/events/eventsRequests';
 function App() {
   return (
     <>
@@ -24,6 +25,7 @@ function App() {
             <Route element={<EventDetails />} path={NAV_ROUTES.CREATEEVENT} />
             <Route element={<EventsList eventsStatus="draft" />} path={NAV_ROUTES.DRAFTEVENTSLIST} />
             <Route element={<EventsList eventsStatus="published" />} path={NAV_ROUTES.PUBLISHEDEVENTSLIST} />
+            <Route element={<EventsRequests />} path={NAV_ROUTES.REQUESTEVENTS} />
           </Route>
         </Routes>
       </BrowserRouter>

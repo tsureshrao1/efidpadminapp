@@ -120,7 +120,7 @@ function AdminHeaderSection({ isLogin = false }) {
                                                                         </ul>
                                                                     </li>
                                                                     <li><a href="#">Horse Request</a></li>
-                                                                    <li><a href="#">Event Request</a></li>
+                                                                    <li><Link to={NAV_ROUTES.REQUESTEVENTS}>Event Request</Link></li>
                                                                     <li><a href="#">Rider Request</a></li>
                                                                 </ul>
                                                             </li>

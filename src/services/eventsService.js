@@ -37,6 +37,24 @@ export const fetchEventsByStatus = async (status) => {
     }
 }
 
+export const fetchEventEntriesByCatId = async (catId) => {
+    try {
+        const response = await api.get(`/events/eventcategoryentries/${catId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const approveEventEntry = async(obj) => {
+    try {
+        const response = await api.post(`/events/updatestatusevententry`, obj);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getEventByID = async(eventID) => {
     try {
         const response = await api.get(`/events/eventbyid/${eventID}`);
