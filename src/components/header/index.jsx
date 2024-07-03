@@ -7,17 +7,20 @@ import logo from '/images/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context';
 import { useLocation } from 'react-router-dom';
-import { NAV_ROUTES, NAV_REQUEST_ROUTES, NAV_SUB_ROUTES, NAV_REQUEST_SUB_ROUTES } from '../../utils/constants';
+import { NAV_ROUTES, NAV_REQUEST_ROUTES, NAV_SUB_ROUTES, NAV_REQUEST_SUB_ROUTES, USER_ROLES } from '../../utils/constants';
 function AdminHeaderSection({ isLogin = false }) {
     const navigate = useNavigate();
     const location = useLocation();
     const pathDetails = location.pathname?.split('/');
     console.log(pathDetails);
-    const { setUserData } = useAppContext();
+    const { state, setUserData } = useAppContext();
+    const { userData } = state;
     const openLoginPage = async () => {
         await sessionStorage.clear();
         await setUserData(null);
-        navigate(NAV_ROUTES.LOGIN);
+        setTimeout(() => {
+            navigate(NAV_ROUTES.LOGIN);
+        }, 100)
     }
 
     return (
@@ -66,10 +69,9 @@ function AdminHeaderSection({ isLogin = false }) {
                                             float: 'left',
                                             lineHeight: '80px',
                                             fontSize: '30px',
-                                            marginLeft: '-90px',
-                                            color: 'white'
+                                            color: '#ff8242'
                                         }}>
-                                            Admin
+                                            {userData.userRole === USER_ROLES.ADMIN ? 'EFI Admin' : 'EFI Secretary General'}
                                         </div>
                                         {
                                             isLogin ? 
@@ -96,9 +98,12 @@ function AdminHeaderSection({ isLogin = false }) {
                                                             <li className={pathDetails[2] === NAV_SUB_ROUTES.HOME ? "active" : ''}> <Link to={NAV_ROUTES.HOME}>Home</Link></li>
                                                             <li className={pathDetails[2] === NAV_SUB_ROUTES.EVENT ? "active" : ''}> <a href="javascript:;">Events<i className="fa fa-chevron-down"></i></a>
                                                                 <ul className="sub-menu">
-                                                                    <li><Link to={NAV_ROUTES.CREATEEVENT}>Create</Link></li>
-                                                                    <li><Link to={NAV_ROUTES.DRAFTEVENTSLIST}>View</Link></li>
+                                                                    {/* <li><Link to={NAV_ROUTES.CREATEEVENT}>Create</Link></li>
+                                                                    <li><Link to={NAV_ROUTES.DRAFTEVENTSLIST}>Draft</Link></li> */}
+                                                                    {userData.userRole === USER_ROLES.ADMIN && <li><Link to={NAV_ROUTES.REGISTEREDEVENTSLIST}>Registered</Link></li> }
+                                                                    {userData.userRole === USER_ROLES.SEC_ADMIN && <li><Link to={NAV_ROUTES.REVIEWEDVENTSLIST}>Reviewed</Link></li>}
                                                                     <li><Link to={NAV_ROUTES.PUBLISHEDEVENTSLIST}>Published</Link></li>
+                                                                    <li><Link to={NAV_ROUTES.COMPLETEDEVENTSLIST}>Completed</Link></li>
                                                                     <li><a href="#">completed tournaments</a></li>
                                                                     <li><a href="#">Registration</a></li>
                                                                 </ul>

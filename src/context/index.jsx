@@ -2,7 +2,7 @@ import React, { createContext, useContext, useReducer } from 'react';
 
 // Initial state
 const initialState = {
-    userData: sessionStorage.getItem("USER_DETAILS"),
+    userData: JSON.parse(sessionStorage.getItem("USER_DETAILS") || '{}'),
     appSettings: {
         theme: 'light',
         notifications: true

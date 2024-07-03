@@ -43,7 +43,7 @@ function LoginComponent() {
         try {
             const loginDetails = await adminLogin({ userName: userName, password: password });
             if (loginDetails?.userId > 0) {
-                sessionStorage.setItem("USER_DETAILS", loginDetails);
+                sessionStorage.setItem("USER_DETAILS", JSON.stringify(loginDetails));
                 setUserData(loginDetails);
                 navigate(NAV_ROUTES.HOME);
             }
@@ -63,11 +63,7 @@ function LoginComponent() {
                 <div className="section-full bg-white content-inner-1 bg-img-fix overlay-white-dark" style={{ "background-image": "url(./images/bg5.jpg)", "background-position": "center" }}>
                     <div className="container">
                         <div className="section-head" style={{ "margin-top": "100px" }}>
-
-
-
                             <div style={{ "min-height": "49vh" }}>
-
                                 <div className="login-form">
                                     <div className="tab-content">
                                         <div id="login" className="tab-pane active text-center">

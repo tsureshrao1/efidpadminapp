@@ -1,51 +1,25 @@
-import SidebarMenu from 'react-bootstrap-sidebar-menu';
-import { fetchEventsByStatus } from '../../services/eventsService';
 import { useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { fetchEventEntriesByCatId, approveEventEntry } from '../../services/eventsService';
-export default function EventsRequests() {
-    const [eventsData, setEventsData] = useState([]);
+import { useAppContext } from '../../context';
+import { EVENT_STATUS, USER_ROLES } from '../../utils/constants';
+export default function EventsRequests({catId}) {
     const [eventEntries, setEventEntries] = useState([]);
-    const horses = [
-        '',
-        'Star',
-        'Sugar',
-        'Sunny',
-        'Sunshine'
-    ];
-    const getPublishedEvents = async () => {
-        const reponse = await fetchEventsByStatus('published');
-        const items = [];
-        reponse.map((event) => {
-            const obj = {
-                name: event.eventName,
-                items: []
-            }
-            event.efiEventsDisciplinesList.map((dis) => {
-                dis.efiEventsDisciplinesCategoryList.map((cat) => {
-                    obj.items.push({
-                        name: `${dis.eventDisciplineName} - ${cat.eventCategoryName}`,
-                        catId: cat.efiEventsDisciplinesCategoryId
-                    });
-                });
-            });
-            items.push(obj)
-        });
-        setEventsData(items);
-    }
-    const getEntriesForCat = async (sub) => {
-        const resp = await fetchEventEntriesByCatId(sub.catId)
+    const { state } = useAppContext();
+    const { userData } = state;
+    const getEntriesForCat = async (catId) => {
+        const resp = await fetchEventEntriesByCatId(catId);
         setEventEntries(resp);
     }
     const approveEntry = async (eventEntry) => {
         const reqObj = {
             ...eventEntry,
-            status: 'ACTIVE',
-            entryStatus: 'ACTIVE'
+            status: userData.userRole === USER_ROLES.ADMIN ? EVENT_STATUS.REVIEW : EVENT_STATUS.PUBLISH,
+            entryStatus: userData.userRole === USER_ROLES.ADMIN ? EVENT_STATUS.REVIEW : EVENT_STATUS.PUBLISH
         }
         try {
-            const resp = await approveEventEntry(reqObj);
+            await approveEventEntry(reqObj);
             toast.success('Event entry approved!');
             const entriesResp = await fetchEventEntriesByCatId(reqObj.efiEventsDisciplinesCategoryId)
             setEventEntries(entriesResp);
@@ -55,107 +29,77 @@ export default function EventsRequests() {
         }
     }
     useState(()=>{
-        getPublishedEvents();
+        getEntriesForCat(catId);
     }, [])
     return (
         <div style={{
-            display: 'flex',
-            height: 'calc(-205px + 100vh)'
+            margin: '10px 0px'
         }}>
-            <SidebarMenu style={{
-                width: '300px',
-                maxHeight: 'calc(-74px + 100vh)',
-                overflow: 'auto'
-            }}>
-                <SidebarMenu.Body>
+            <h5>
+                Event Requests
+            </h5>
+            <Table striped="columns">
+                <thead>
+                    <tr>
+                    <th>#</th>
+                    <th>Raider Name</th>
+                    <th>Horse Name</th>
+                    <th>Borrowed</th>
+                    <th>Team Entry</th>
+                    <th>Individual Entry</th>
+                    <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {
-                        eventsData.map(item => (
-                            <SidebarMenu.Sub>
-                                <SidebarMenu.Sub.Toggle style={{
-                                    width: '100%',
-                                    textAlign: 'left',
-                                    borderRadius: '0px',
-                                    border: '1px solid silver'
-                                }}>
-                                    <SidebarMenu.Nav.Title>
-                                        {item.name}
-                                    </SidebarMenu.Nav.Title>
-                                </SidebarMenu.Sub.Toggle>
-                                {
-                                    item.items.map(sub => (
-                                        <SidebarMenu.Sub.Collapse>
-                                            <SidebarMenu.Nav style={{
-                                                        padding: '5px 20px',
-                                                        border: '1px solid silver',
-                                                        background: 'white'
-                                                    }}
-                                                    onClick={() => {
-                                                        getEntriesForCat(sub)
-                                                    }}
-                                                    >
-                                                <SidebarMenu.Nav.Link>
-                                                    <SidebarMenu.Nav.Title>
-                                                        {sub.name}
-                                                    </SidebarMenu.Nav.Title>
-                                                </SidebarMenu.Nav.Link>
-                                            </SidebarMenu.Nav>
-                                        </SidebarMenu.Sub.Collapse>
-                                    ))
-                                }
-                            </SidebarMenu.Sub>
+                        eventEntries.map((entry, index) => (
+                            <tr>
+                                <td>{index + 1}</td>
+                                <td>{entry.riderName}</td>
+                                <td>{entry.horseName}</td>
+                                <td>{entry.borrowHorse ? 'Yes' : 'No'}</td>
+                                <td>{entry.teamEntry ? 'Yes' : 'No'}</td>
+                                <td>{entry.individualEntry ? 'Yes' : 'No'}</td>
+                                <td>
+                                    {
+                                        userData.userRole === USER_ROLES.ADMIN && (
+                                            <>
+                                                {
+                                                    entry.entryStatus === EVENT_STATUS.PUBLISH ? <span style={{color: 'green'}}>Approved</span> : entry.entryStatus === 'REVIEWED' ? <span style={{color: 'red'}}>Approval Pending</span> : (
+                                                        <Button onClick={
+                                                            () => {approveEntry(entry)}
+                                                        }>Submit Review</Button>
+                                                    )
+                                                }
+                                            </>
+                                        )
+                                    }
+                                    {
+                                        userData.userRole === USER_ROLES.SEC_ADMIN && (
+                                            <>
+                                                {
+                                                    entry.entryStatus === EVENT_STATUS.PUBLISH ? <span style={{color: 'green'}}>Approved</span> : entry.entryStatus === EVENT_STATUS.REGISTER ? <span style={{color: 'red'}}>Review Pending</span> : (
+                                                        <Button onClick={
+                                                            () => {approveEntry(entry)}
+                                                        }>Approve</Button>
+                                                    )
+                                                }
+                                            </>
+                                        )
+                                    }
+                                </td>
+                            </tr>
                         ))
                     }
-                </SidebarMenu.Body>
-            </SidebarMenu>
-            <div style={{
-                flex: '1',
-                maxHeight: 'calc(-74px + 100vh)',
-                overflow: 'auto',
-                padding: '10px'
-            }}>
-                <h2>
-                    Event Requests
-                </h2>
-                <Table striped="columns">
-                    <thead>
-                        <tr>
-                        <th>#</th>
-                        <th>Raider Name</th>
-                        <th>Horse Name</th>
-                        <th>Borrowed</th>
-                        <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            eventEntries.map((entry, index) => (
-                                <tr>
-                                    <td>{index + 1}</td>
-                                    <td>{entry.createdBy}</td>
-                                    <td>{horses[entry.horseId]}</td>
-                                    <td>{entry.borrowHorse ? 'Yes' : 'No'}</td>
-                                    <td>
-                                        {
-                                            entry.entryStatus === 'ACTIVE' ? 'Approved' : (
-                                                <Button onClick={
-                                                    () => {approveEntry(entry)}
-                                                }>Approve</Button>
-                                            )
-                                        }
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                        {
-                            eventEntries.length === 0 && (
-                                <tr>
-                                    <td colSpan={5}>No Entries found</td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </Table>
-            </div>
+                    {
+                        eventEntries.length === 0 && (
+                            <tr>
+                                <td colSpan={5}>No Entries found</td>
+                            </tr>
+                        )
+                    }
+                </tbody>
+            </Table>
         </div>
     )
 }

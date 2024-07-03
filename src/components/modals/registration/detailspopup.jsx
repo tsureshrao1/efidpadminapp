@@ -7,9 +7,13 @@ import ClubMemberDetails from './clubmemberdetailspopup';
 import InstituteMemberDetails from './institutememberdetailspopup';
 import IndividualDetails from './individualmemberdetailspopup';
 import LifeTimeIndividualDetails from './lifetimeIndividualDetailspopup';
+import { useAppContext } from '../../../context';
 import { toast } from 'react-toastify';
+import { EVENT_STATUS, USER_ROLES, USER_STATUS } from '../../../utils/constants';
 export default function RegisterDetailsPopup({userObj, setCount, count, regReqType, setShowdetailsPopup}) {
   const { userId, approvedComment } = userObj;
+  const {state} = useAppContext();
+  const { userData } = state;
   const [show, setShow] = useState(false);
   const [error, setError] = useState(false);
   const [reason, setReason] = useState(approvedComment);
@@ -19,7 +23,8 @@ export default function RegisterDetailsPopup({userObj, setCount, count, regReqTy
   const handleSubmit = async () => {
     try {
       const requestObj = { ...userObj };
-      requestObj.status = 'ACTIVE';
+      const status = userData.userRole === USER_ROLES.ADMIN ? USER_STATUS.REVIEW : USER_STATUS.PUBLISH;
+      requestObj.status = status;
       requestObj.approvedComment = reason;
       await approveUser(requestObj);
       toast.success("Approved successfully!");
@@ -29,22 +34,22 @@ export default function RegisterDetailsPopup({userObj, setCount, count, regReqTy
       toast.error(error);
     }
   };
-  const [userData, setUserData] = useState({});
+  const [memberData, setMemberData] = useState({});
 
   const renderComp = () => {
     let comp = <></>;
     switch(regReqType) {
         case 'CLUB':
-            comp = <ClubMemberDetails userData={userData} />
+            comp = <ClubMemberDetails userData={memberData} />
             break;
         case 'INST':
-            comp = <InstituteMemberDetails userData={userData} />
+            comp = <InstituteMemberDetails userData={memberData} />
             break;
         case 'INDI':
-            comp = <IndividualDetails userData={userData} />
+            comp = <IndividualDetails userData={memberData} />
             break;
         case 'LIFE':
-            comp = <LifeTimeIndividualDetails userData={userData} />
+            comp = <LifeTimeIndividualDetails userData={memberData} />
             break;
         default:
             comp = <></>
@@ -58,7 +63,7 @@ export default function RegisterDetailsPopup({userObj, setCount, count, regReqTy
     const fetchData = async () => {
         try {
             const response = await getClubByUser(regReqType, userId);
-            setUserData(response.data);
+            setMemberData(response.data);
             setShow(true);
             setError(false);
         } catch (err) {

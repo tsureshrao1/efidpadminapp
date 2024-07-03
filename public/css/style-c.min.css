@@ -2445,7 +2445,7 @@ blockquote:before {
     margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
-    width: 200px;
+    width: 80px;
     height: 90px;
     position: relative;
     z-index: 9;
@@ -2495,7 +2495,7 @@ blockquote:before {
 .is-fixed .logo-header,
 .is-fixed.header-curve .logo-header {
     height: 90px;
-    width: 200px;
+    width: 80px;
 }
 
 /*=Set width for mobile=*/
@@ -9313,11 +9313,11 @@ footer.footer-white .footer-bottom a {
 @media only screen and (max-width: 320px) {
     .logo-header,
     .is-fixed.header-curve .logo-header {
-        width: 150px;
+        width: 80px;
     }
     .is-fixed .logo-header,
     .is-fixed.header-curve .logo-header {
-        width: 150px;
+        width: 80px;
     }
     .is-fixed .navbar-toggle {
         margin: 14px 0 14px 10px;

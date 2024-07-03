@@ -2822,7 +2822,7 @@ blockquote:before {
     margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
-    width: 200px;
+    width: 80px;
     height: 90px;
     position: relative;
     z-index: 9;
@@ -2872,7 +2872,7 @@ blockquote:before {
 .is-fixed .logo-header,
 .is-fixed.header-curve .logo-header {
     height: 90px;
-    width: 200px;
+    width: 80px;
 }
 
 /*=Set width for mobile=*/

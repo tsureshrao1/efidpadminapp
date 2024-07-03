@@ -2535,7 +2535,7 @@ blockquote:before {
     margin-bottom: 0;
     margin-left: 0;
     margin-right: 0;
-    width: 200px;
+    width: 80px;
     height: 90px;
     position: relative;
     z-index: 9;
@@ -2585,7 +2585,7 @@ blockquote:before {
 .is-fixed .logo-header,
 .is-fixed.header-curve .logo-header {
     height: 90px;
-    width: 200px;
+    width: 80px;
 }
 
 /*=Set width for mobile=*/
@@ -2593,7 +2593,7 @@ blockquote:before {
 @media only screen and (max-width: 767px) {
     .logo-header,
     .is-fixed.header-curve .logo-header {
-        width: 180px;
+        width: 80px;
     }
     .is-fixed .logo-header a img,
     .is-fixed.header-curve .logo-header a img {

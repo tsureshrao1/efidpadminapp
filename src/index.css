@@ -70,3 +70,25 @@ button:focus-visible {
 .p-dialog-mask {
   background-color: rgba(0, 0, 0, 0.4) !important;
 }
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  color: orangered;
+  background-color: #fff;
+  border-color: none;
+  background: rgba(0,0,0,0.1);
+  border-radius: 0px;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid rgba(0,0,0,0.1);;
+  
+}
+
+.nav-tabs .nav-link {
+  border-radius: 0px;
+}
+
+.nav-tabs .nav-link:hover{
+  color:gray;
+  border-radius: 0px;
+}

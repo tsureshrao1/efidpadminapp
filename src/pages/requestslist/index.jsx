@@ -7,6 +7,8 @@ import { formatDate } from '../../services/dateutils';
 import AdminHeaderSection from '../../components/header';
 import { useLocation, useNavigate  } from 'react-router-dom';
 import RegisterDetailsPopup from '../../components/modals/registration/detailspopup';
+import { USER_ROLES, USER_STATUS } from '../../utils/constants';
+import { useAppContext } from '../../context';
 
 
 const cardStyles = {
@@ -35,11 +37,13 @@ const cardStyles = {
     "background-clip":" border-box",
     "border":" var(--bs-card-border-width) solid var(--bs-card-border-color)",
     "border-radius":" var(--bs-card-border-radius"
-
 }
 
 function RequestsList() {
     const [requestData, setRequestData] = useState([]);
+    const {state} = useAppContext()
+    const { userData } = state;
+    const status = userData.userRole === USER_ROLES.ADMIN ? USER_STATUS.REGISTER : USER_STATUS.REVIEW;
     const [showdetailsPopup, setShowdetailsPopup] = useState(false);
     const [count, setCount] = useState(0);
     const [userObj, setUserObj] = useState();
@@ -54,7 +58,7 @@ function RequestsList() {
         const reqParam = reqType.substring(0,4).toUpperCase();
         const fetchData = async () => {
             try {
-                const response = await fetchPendingRequestFormAdmin(`${reqParam}/REGISTER`);
+                const response = await fetchPendingRequestFormAdmin(`${reqParam}/${status}`);
                 setRequestData(response.data);
                 setRegReqType(reqParam);
             } catch (err) {

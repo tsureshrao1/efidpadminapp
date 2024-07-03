@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { NAV_ROUTES, NAV_MODULE_NAME } from './utils/constants';
 import EventsRequests from './pages/events/eventsRequests';
+import EventHandler from './pages/events/eventHandler';
 function App() {
   return (
     <>
@@ -23,9 +24,13 @@ function App() {
             <Route element={<GridExample />} path={NAV_ROUTES.HOME} />
             <Route element={<RequestsList />} path={NAV_ROUTES.REQUEST} />
             <Route element={<EventDetails />} path={NAV_ROUTES.CREATEEVENT} />
-            <Route element={<EventsList eventsStatus="draft" />} path={NAV_ROUTES.DRAFTEVENTSLIST} />
-            <Route element={<EventsList eventsStatus="published" />} path={NAV_ROUTES.PUBLISHEDEVENTSLIST} />
+            <Route element={<EventsList eventsStatus="DRAFT" />} path={NAV_ROUTES.DRAFTEVENTSLIST} />
+            <Route element={<EventsList eventsStatus="REGISTER" />} path={NAV_ROUTES.REGISTEREDEVENTSLIST} />
+            <Route element={<EventsList eventsStatus="REVIEWED" />} path={NAV_ROUTES.REVIEWEDVENTSLIST} />
+            <Route element={<EventsList eventsStatus="PUBLISHED" />} path={NAV_ROUTES.PUBLISHEDEVENTSLIST} />
+            <Route element={<EventsList eventsStatus="COMPLETED" />} path={NAV_ROUTES.COMPLETEDEVENTSLIST} />
             <Route element={<EventsRequests />} path={NAV_ROUTES.REQUESTEVENTS} />
+            <Route element={<EventHandler />} path={NAV_ROUTES.EVENT_DETAILS} />
           </Route>
         </Routes>
       </BrowserRouter>
