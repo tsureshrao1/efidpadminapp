@@ -39,7 +39,7 @@ export const fetchEventsByStatus = async (status) => {
 
 export const fetchEventEntriesByCatId = async (catId) => {
     try {
-        const response = await api.get(`/events/eventcategoryentries/${catId}`);
+        const response = await api.get(`/events/evententrybyeventdisciplinecategoryid/${catId}`);
         return response.data;
     } catch (error) {
         throw error;

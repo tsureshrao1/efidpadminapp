@@ -78,6 +78,28 @@ export const getPaymentDetailsById = async (id) => {
     }
 }
 
+export const downloadAttachmentFile = async (attachmentObj) => {
+    try {
+        const response = await api.post(`/file/downloadattachmentfilebyurl`, attachmentObj, {
+            "accept": 'application/octet-stream',
+            'Content-Type': 'application/json'
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getPaymentDetailsByUserId = async (userId) => {
+    try {
+        const response = await api.get(`/payments/getpaymentbyuserid/${userId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 export const getClubByUser = async (regReqType, userId) => {
     let path = '';
     switch(regReqType) {

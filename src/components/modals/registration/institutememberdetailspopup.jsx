@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import AttachmentTable from '../../attachmentTable';
 import { displayDate } from '../../../services/dateutils';
+import MemberPayment from '../../payment/memberPayments';
 export default function InstituteMemberDetails({userData}) {
     const cardStyle = {
       padding: '0px'
@@ -8,7 +9,7 @@ export default function InstituteMemberDetails({userData}) {
     return (
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
+          <div class="card" style={cardStyle}>
               <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
@@ -304,47 +305,7 @@ export default function InstituteMemberDetails({userData}) {
 
             </div>
         </div>
-
-        <div class="col-md-12">
-            <div class="card" style={cardStyle}>
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
-                                Payment
-                            </button>
-                        </h2>
-                        <div id="collapse7" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <div class="card-body">
-                                    <div class="row">
-
-                                        <div class="col-md-4">
-                                            <label class="form-label text-gray-dark" for="userName">Current Subscription Fee</label>
-                                            <p>Rs. {userData?.subscriptionFees}/-</p>
-
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label class="form-label text-gray-dark" for="userName">Application Processing Fee</label>
-                                            <p>Rs. {userData?.applicationProcessingFee}/-</p>
-
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label text-gray-dark" for="userName">One Year Advance Fees</label>
-                                            <p>{userData?.oneYearAdvanceFees} /-</p>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        {userData?.efiUser?.userId && <MemberPayment userId={userData?.efiUser?.userId} /> }
       </div>
     );
 }
