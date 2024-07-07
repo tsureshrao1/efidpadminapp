@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+
+.DZ-theme-btn {
+  display: none !important;
+}
+
+.form-label {
+  color: #9a9a9a !important;
+  margin-bottom: 0px;
+}

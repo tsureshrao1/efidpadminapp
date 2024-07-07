@@ -12,7 +12,6 @@ function AdminHeaderSection({ isLogin = false }) {
     const navigate = useNavigate();
     const location = useLocation();
     const pathDetails = location.pathname?.split('/');
-    console.log(pathDetails);
     const { state, setUserData } = useAppContext();
     const { userData } = state;
     const openLoginPage = async () => {
@@ -71,7 +70,7 @@ function AdminHeaderSection({ isLogin = false }) {
                                             fontSize: '30px',
                                             color: '#ff8242'
                                         }}>
-                                            {userData.userRole === USER_ROLES.ADMIN ? 'EFI Admin' : 'EFI Secretary General'}
+                                            {userData != null ? userData?.userRole === USER_ROLES.ADMIN ? 'EFI Admin' : 'EFI Secretary General' : 'Admin Portal'}
                                         </div>
                                         {
                                             isLogin ? 
@@ -100,8 +99,8 @@ function AdminHeaderSection({ isLogin = false }) {
                                                                 <ul className="sub-menu">
                                                                     {/* <li><Link to={NAV_ROUTES.CREATEEVENT}>Create</Link></li>
                                                                     <li><Link to={NAV_ROUTES.DRAFTEVENTSLIST}>Draft</Link></li> */}
-                                                                    {userData.userRole === USER_ROLES.ADMIN && <li><Link to={NAV_ROUTES.REGISTEREDEVENTSLIST}>Registered</Link></li> }
-                                                                    {userData.userRole === USER_ROLES.SEC_ADMIN && <li><Link to={NAV_ROUTES.REVIEWEDVENTSLIST}>Reviewed</Link></li>}
+                                                                    {userData?.userRole === USER_ROLES.ADMIN && <li><Link to={NAV_ROUTES.REGISTEREDEVENTSLIST}>Registered</Link></li> }
+                                                                    {userData?.userRole === USER_ROLES.SEC_ADMIN && <li><Link to={NAV_ROUTES.REVIEWEDVENTSLIST}>Reviewed</Link></li>}
                                                                     <li><Link to={NAV_ROUTES.PUBLISHEDEVENTSLIST}>Published</Link></li>
                                                                     <li><Link to={NAV_ROUTES.COMPLETEDEVENTSLIST}>Completed</Link></li>
                                                                     <li><a href="#">completed tournaments</a></li>
@@ -124,9 +123,8 @@ function AdminHeaderSection({ isLogin = false }) {
                                                                             <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.LIFETIMEINDIVIDUALS ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.LIFETIMEINDIVIDUALS}>LIFETIME INDIVIDUALS</Link></li>
                                                                         </ul>
                                                                     </li>
-                                                                    <li><a href="#">Horse Request</a></li>
-                                                                    <li><Link to={NAV_ROUTES.REQUESTEVENTS}>Event Request</Link></li>
-                                                                    <li><a href="#">Rider Request</a></li>
+                                                                    <li><Link to={NAV_ROUTES.HORSE_REQUEST}>Horse Request</Link></li>
+                                                                    <li><Link to={NAV_ROUTES.RIDER_REQUEST}>Rider Request</Link></li>
                                                                 </ul>
                                                             </li>
                                                         </ul>

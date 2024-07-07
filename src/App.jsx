@@ -1,6 +1,6 @@
 import './App.css';
 import LoginComponent from "./pages/loginpage";
-import RequestsList from "./pages/requestslist";
+import MemberRequest from './pages/requestslist/member';
 import GridExample from './pages/home';
 import EventDetails from './pages/events/eventDetails';
 import EventsList from './pages/events/eventsList';
@@ -11,6 +11,10 @@ import { ToastContainer } from 'react-toastify';
 import { NAV_ROUTES, NAV_MODULE_NAME } from './utils/constants';
 import EventsRequests from './pages/events/eventsRequests';
 import EventHandler from './pages/events/eventHandler';
+import HorseRequests from './pages/requestslist/horse';
+import RiderRequests from './pages/requestslist/rider';
+import SideCanvas from './components/canvas';
+import Popup from './components/modals/registration/quickview';
 function App() {
   return (
     <>
@@ -22,7 +26,9 @@ function App() {
           </Route>
           <Route element={<ProtectedRoutes />}>
             <Route element={<GridExample />} path={NAV_ROUTES.HOME} />
-            <Route element={<RequestsList />} path={NAV_ROUTES.REQUEST} />
+            <Route element={<HorseRequests />} path={NAV_ROUTES.HORSE_REQUEST} />
+            <Route element={<RiderRequests />} path={NAV_ROUTES.RIDER_REQUEST} />
+            <Route element={<MemberRequest />} path={NAV_ROUTES.REQUEST} />
             <Route element={<EventDetails />} path={NAV_ROUTES.CREATEEVENT} />
             <Route element={<EventsList eventsStatus="DRAFT" />} path={NAV_ROUTES.DRAFTEVENTSLIST} />
             <Route element={<EventsList eventsStatus="REGISTER" />} path={NAV_ROUTES.REGISTEREDEVENTSLIST} />
@@ -39,6 +45,8 @@ function App() {
         autoClose={5000}
         theme="colored"
       />
+      <SideCanvas />
+      <Popup />
     </>
   )
 }

@@ -5,7 +5,7 @@ import MainLayout from '../layout/layout';
 const ProtectedRoutes = () => {
     const { state } = useAppContext();
     const { userData } = state;
-    return Object.keys(userData || {}).length > 0 ? <MainLayout><Outlet /></MainLayout> : <Navigate to={NAV_ROUTES.LOGIN} />;
+    return userData ? <MainLayout><Outlet /></MainLayout> : <Navigate to={'/efidpadmin'} />;
 }
 
 export default ProtectedRoutes;

@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { fetchEventEntriesByCatId, approveEventEntry } from '../../services/eventsService';
 import { useAppContext } from '../../context';
-import { EVENT_STATUS, USER_ROLES } from '../../utils/constants';
+import { EVENT_STATUS, MEM_TYPES, USER_ROLES } from '../../utils/constants';
+import { usePopupContext } from '../../context/popupContext';
+import { useCanvasContext } from '../../context/canvasContext';
 export default function EventsRequests({catId}) {
     const [eventEntries, setEventEntries] = useState([]);
+    const {setPopupContent, setDisplayPopup} = usePopupContext()
+    const { setCanvasContent, setDisplayCanvas } = useCanvasContext();
     const { state } = useAppContext();
     const { userData } = state;
     const getEntriesForCat = async (catId) => {
@@ -28,9 +32,18 @@ export default function EventsRequests({catId}) {
             console.log(e);
         }
     }
-    useState(()=>{
+    const showDetails = (title, type, id) => {
+        setPopupContent({
+            title,
+            details: undefined,
+            getId: id,
+            regReqType: type
+        });
+        setDisplayPopup(true);
+    }
+    useEffect(()=>{
         getEntriesForCat(catId);
-    }, [])
+    }, [catId])
     return (
         <div style={{
             margin: '10px 0px'
@@ -44,6 +57,7 @@ export default function EventsRequests({catId}) {
                     <th>#</th>
                     <th>Raider Name</th>
                     <th>Horse Name</th>
+                    <th>Payment</th>
                     <th>Borrowed</th>
                     <th>Team Entry</th>
                     <th>Individual Entry</th>
@@ -53,10 +67,11 @@ export default function EventsRequests({catId}) {
                 <tbody>
                     {
                         eventEntries.map((entry, index) => (
-                            <tr>
+                            <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>{entry.riderName}</td>
-                                <td>{entry.horseName}</td>
+                                <td><a href="javascript:void(0)" onClick={() => {showDetails('Rider Details', 'RIDER', entry.riderId)}}>{entry.riderName}</a></td>
+                                <td><a href="javascript:void(0)" onClick={() => {showDetails('Horse Details', 'HORSE', entry.horseId)}}>{entry.horseName}</a></td>
+                                <td><a href="javascript:void(0)" onClick={() => {setCanvasContent({title:'Payment Details!', type:MEM_TYPES.PAYMENT, id:entry.paymentId}); setDisplayCanvas(true)}}>View details</a></td>
                                 <td>{entry.borrowHorse ? 'Yes' : 'No'}</td>
                                 <td>{entry.teamEntry ? 'Yes' : 'No'}</td>
                                 <td>{entry.individualEntry ? 'Yes' : 'No'}</td>

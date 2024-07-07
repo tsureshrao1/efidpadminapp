@@ -10,6 +10,43 @@ export const login = async (obj) => {
     }
 };
 
+export const fetchHorsesByStatus = async (status) => {
+    try {
+        const response = await api.get(`/horses/horsesbystatus/${status}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getHorseDetailsById = async (id) => {
+    try {
+        const response = await api.get(`/horses/horsebyhorseid/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+export const fetchRidersByStatus = async (status) => {
+    try {
+        const response = await api.get(`/riders/ridersbystatus/${status}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getRiderDetailsById = async (id) => {
+    try {
+        const response = await api.get(`/riders/riderbyriderid/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const fetchPendingRequestFormAdmin = async (memberType) => {
     try {
         const response = await api.get('/efiusers/usersbymemtypeandstatus/' + memberType);
@@ -18,6 +55,28 @@ export const fetchPendingRequestFormAdmin = async (memberType) => {
         throw error;
     }
 };
+
+export const getPaymentDetailsById = async (id) => {
+    try {
+        return {
+            "paymentId": 26,
+            "userId": 26,
+            "entityId": 0,
+            "entityName": "Event Entry",
+            "paymentType": "QR Code",
+            "paymentStatus": "Success",
+            "amountPaid": 2567,
+            "paymentGatewayId": "1233456",
+            "paymentOrderId": "1233456",
+            "paymentSignature": null,
+            "bankName": "yes",
+            "paymentDate": null,
+            "additionalComments": null
+          };
+    } catch (error) {
+        throw error;
+    }
+}
 
 export const getClubByUser = async (regReqType, userId) => {
     let path = '';
@@ -49,6 +108,24 @@ export const getClubByUser = async (regReqType, userId) => {
 export const approveUser = async (requestObj) => {
     try {
         const response = await api.put(`/efiusers/approveuser`, requestObj);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const approveHorse = async (requestObj) => {
+    try {
+        const response = await api.put(`/horses/approvehorse`, requestObj);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const approveRider = async (requestObj) => {
+    try {
+        const response = await api.put(`/riders/approverider`, requestObj);
         return response;
     } catch (error) {
         throw error;

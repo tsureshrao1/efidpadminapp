@@ -1,8 +1,7 @@
 import { format } from 'date-fns';
 import AttachmentTable from '../../attachmentTable';
+import { displayDate } from '../../../services/dateutils';
 export default function IndividualDetails({userData}) {
-    const totalAmount = parseInt((userData.subscriptionFees || 0) + (userData.applicationProcessingFee || 0));
-    const totalAmountWithGST = totalAmount + ((totalAmount*18)/100);
     const cardStyle = {
         padding: '0px'
     }
@@ -11,10 +10,6 @@ export default function IndividualDetails({userData}) {
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row mb-3">
-                        <div class="col-md-8"><h2 class="h6 text-uppercase"> Confirm Details!</h2></div>
-
-                    </div>
                     <div class="card" style={cardStyle}>
 
                         <div class="accordion" id="accordionExample">
@@ -44,16 +39,16 @@ export default function IndividualDetails({userData}) {
                                             <div class="row">
                                                 <h6>Secret Q/A</h6>
                                                 <div class="col-md-4">
-                                                    <label class="form-label text-gray-dark" for="userName">{userData?.secretQuestion1}</label>
-                                                    <p>{userData?.efiUser?.answer1}</p>
+                                                    <label class="form-label text-gray-dark" for="userName">{userData?.efiUser?.secretQuestion1}</label>
+                                                    <p>{userData?.efiUser?.secretAnswer1}</p>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label class="form-label text-gray-dark" for="userName">{userData?.secretQuestion2}</label>
-                                                    <p>{userData?.efiUser?.answer2}</p>
+                                                    <label class="form-label text-gray-dark" for="userName">{userData?.efiUser?.secretQuestion2}</label>
+                                                    <p>{userData?.efiUser?.secretAnswer2}</p>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label class="form-label text-gray-dark" for="userName">{userData?.secretQuestion3}</label>
-                                                    <p>{userData?.efiUser?.answer3}</p>
+                                                    <label class="form-label text-gray-dark" for="userName">{userData?.efiUser?.secretQuestion3}</label>
+                                                    <p>{userData?.efiUser?.secretAnswer3}</p>
                                                 </div>
 
                                             </div>
@@ -87,7 +82,7 @@ export default function IndividualDetails({userData}) {
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">Date Of Birth</label>
-                                                    <p>{userData?.dateOfBirth ? format(userData?.dateOfBirth, "yyyy-MM-dd") : ''}</p>
+                                                    <p>{displayDate(userData?.dateOfBirth, "dd-MM-yyyy")}</p>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">Gender</label>
@@ -112,8 +107,16 @@ export default function IndividualDetails({userData}) {
                                                     <p>{userData?.emailId}</p>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label class="form-label text-gray-dark" for="userName">Address 1</label>
+                                                    <label class="form-label text-gray-dark" for="userName">Address Lane 1</label>
                                                     <p>{userData?.addressLine1}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label text-gray-dark" for="userName">Address Lane 2</label>
+                                                    <p>{userData?.addressLine2}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label text-gray-dark" for="userName">Address Lane 3</label>
+                                                    <p>{userData?.addressLine3}</p>
                                                 </div>
                                                 {/* <div class="col-md-4">
                                                                                 <label class="form-label text-gray-dark" for="userName">Address 2</label>
@@ -164,9 +167,41 @@ export default function IndividualDetails({userData}) {
                                             <div class="card-body p-0">
                                                 <div class="row">
 
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label text-gray-dark" for="userName">Own Horses</label>
+                                                        <p>{userData?.ownHorses}</p>
 
-                                                        <p></p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label text-gray-dark" for="userName">Stabled Place</label>
+                                                        <p>{userData?.stabledPlace}</p>
+
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-gray-dark" for="userName">Is Active Rider</label>
+                                                        <p>{userData?.isActiveRider ? "Yes" : "No"}</p>
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-gray-dark" for="userName">Interest In Judging</label>
+                                                        <p>{userData?.interestInJudging ? "Yes" : "No"}</p>
+
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-gray-dark" for="userName">Interest In Training</label>
+                                                        <p>{userData?.interestInTraining ? "Yes" : "No"}</p>
+
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-gray-dark" for="userName">Interest In Course Designing</label>
+                                                        <p>{userData?.interestInCourseDesigning ? "Yes" : "No"}</p>
 
                                                     </div>
 
@@ -200,7 +235,7 @@ export default function IndividualDetails({userData}) {
                                             <div class="card-body p-0">
                                                 {
                                                     userData?.memberSponsorsList?.map(sponsor => (
-                                                        <div class="row">
+                                                        <div class="row rounded-border">
                                                             <div class="col-md-4">
                                                                 <label class="form-label text-gray-dark" for="userName">Sponsor Full Name</label>
                                                                 <p>{sponsor?.memberSponsorName}</p>
@@ -259,45 +294,6 @@ export default function IndividualDetails({userData}) {
 
                     </div>
                 </div>
-                {/* <div class="col-md-12">
-                                                <div class="card" style={cardStyle}>
-                                                    <div class="accordion" id="accordionExample">
-                                                        <div class="accordion-item">
-                                                            <h2 class="accordion-header">
-                                                                <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                                                    Undertaking & Submission Confirmation
-                                                                </button>
-                                                            </h2>
-                                                            <div id="collapseFour" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                                                <div class="accordion-body">
-                                                                    <div class="card-body">
-                                                                        <div class="row">
-
-                                                                            <div class="col-md-4">
-                                                                                <label class="form-label text-gray-dark" for="userName">Place of Undertaking</label>
-                                                                                <p>Hyderabad</p>
-
-                                                                            </div>
-                                                                            <div class="col-md-4">
-                                                                                <label class="form-label text-gray-dark" for="userName">Date of Undertaking</label>
-                                                                                <p>25-05-2020</p>
-
-                                                                            </div>
-                                                                            <div class="col-md-4">
-                                                                                <label class="form-label text-gray-dark" for="userName">Signature Upload</label>
-                                                                                 <p><img src="../images/signature.png" alt="" class="mt-4" Style="height:50px"></p>
-
-                                                                            </div>
-
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
 
                 <div class="col-md-12">
                     <div class="card" style={cardStyle}>
@@ -327,14 +323,9 @@ export default function IndividualDetails({userData}) {
 
                                                 <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">Date of Undertaking</label>
-                                                    <p> {userData?.underTakingDate ? format(userData?.underTakingDate, "yyyy-MM-dd")  : ''}</p>
+                                                    <p> {displayDate(userData?.underTakingDate, "dd-MM-yyyy")}</p>
 
                                                 </div>
-                                                {/* <div class="col-md-4">
-                                                    <label class="form-label text-gray-dark" for="userName">Total + 18%GST</label>
-                                                    <p>{userData?.subscriptionFees} + {userData?.applicationProcessingFee} = Rs. {userData?.subscriptionFees + userData?.applicationProcessingFee}/-</p>
-
-                                                </div> */}
 
                                             </div>
                                         </div>
@@ -372,8 +363,8 @@ export default function IndividualDetails({userData}) {
 
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label class="form-label text-gray-dark" for="userName">Total + 18%GST</label>
-                                                    <p>{totalAmountWithGST}/-</p>
+                                                    <label class="form-label text-gray-dark" for="userName">One Year Advance Fees</label>
+                                                    <p>{userData?.oneYearAdvanceFees}/-</p>
 
                                                 </div>
 

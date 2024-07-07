@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react'
-import FooterSection from '../../components/footer';
-
-import { fetchPendingRequestFormAdmin } from '../../services/apiService';
-import userProfilePic from '/images/avatar-1.jpg';
+import { fetchHorsesByStatus } from '../../services/apiService';
+import userProfilePic from '/images/adz.png';
 import { formatDate } from '../../services/dateutils';
-import AdminHeaderSection from '../../components/header';
-import { useLocation, useNavigate  } from 'react-router-dom';
 import RegisterDetailsPopup from '../../components/modals/registration/detailspopup';
 import { USER_ROLES, USER_STATUS } from '../../utils/constants';
 import { useAppContext } from '../../context';
@@ -39,44 +35,25 @@ const cardStyles = {
     "border-radius":" var(--bs-card-border-radius"
 }
 
-function RequestsList() {
+function HorseRequests() {
     const [requestData, setRequestData] = useState([]);
     const {state} = useAppContext()
     const { userData } = state;
-    const status = userData.userRole === USER_ROLES.ADMIN ? USER_STATUS.REGISTER : USER_STATUS.REVIEW;
     const [showdetailsPopup, setShowdetailsPopup] = useState(false);
     const [count, setCount] = useState(0);
-    const [userObj, setUserObj] = useState();
-    const location = useLocation();
-    const navigate = useNavigate();
-    const reqType = location.pathname?.split('/')[3];
-    if(!reqType) {
-        navigate('/request/clubs');
-    }
-    const [regReqType, setRegReqType] = useState('')
+    const [horseObj, setHorseObj] = useState();
+    const status = userData.userRole === USER_ROLES.ADMIN ? USER_STATUS.REGISTER : USER_STATUS.REVIEW;
     useEffect(() => {
-        const reqParam = reqType.substring(0,4).toUpperCase();
         const fetchData = async () => {
             try {
-                const response = await fetchPendingRequestFormAdmin(`${reqParam}/${status}`);
-                setRequestData(response.data);
-                setRegReqType(reqParam);
+                const response = await fetchHorsesByStatus(status);
+                setRequestData(response);
             } catch (err) {
                 alert(err);
             }
         };
         fetchData();
-    }, [reqType, count]);
-
-
-    const rejectRequest = async (e,obj) => {
-        e.preventDefault();
-    }
-
-    const approveRequest = async (e,obj) => {
-        e.preventDefault();
-    }
-
+    }, [count]);
 
     return (
         <>
@@ -112,7 +89,7 @@ function RequestsList() {
                                                                                 Name
                                                                             </th>
                                                                             <th>
-                                                                                Registered by
+                                                                                Owner Name
                                                                             </th>
                                                                             <th>
                                                                                 Registered Date
@@ -124,19 +101,21 @@ function RequestsList() {
                                                                     </thead>
                                                                     <tbody>
                                                                         {requestData?.map((obj) => (
-                                                                            <tr key={obj?.clubDetails?.id}>
+                                                                            <tr style={{
+                                                                                verticalAlign: 'middle'
+                                                                            }} key={obj?.horseId}>
                                                                                 <td><img className="rounded-circle" style={{ "width": "40px" }} src={obj.profilePhoto || userProfilePic} alt="activity-user" /></td>
                                                                                 <td>
-                                                                                    <p className="m-0">{obj?.userName}</p>
+                                                                                    <p className="m-0">{obj?.horseName}</p>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <h6 className="text-muted">{obj?.createdBy}</h6>
+                                                                                    <h6 className="text-muted">{obj?.nameOfOwner}</h6>
                                                                                 </td>
                                                                                 <td>
                                                                                     <h6 className="text-muted">{formatDate(obj?.createdDate)}</h6>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <a href="javascript:void(0);" onClick={() => {setUserObj(obj); setShowdetailsPopup(true)}} className="f-20 me-2"><i className="fa fa-eye"></i></a>
+                                                                                    <a href="javascript:void(0);" onClick={() => {setHorseObj(obj); setShowdetailsPopup(true)}} className="f-20 me-2"><i className="fa fa-eye"></i></a>
                                                                                 </td>
                                                                             </tr>
                                                                         ))
@@ -157,10 +136,10 @@ function RequestsList() {
                 </div>
             </div>
             {
-                showdetailsPopup ? <RegisterDetailsPopup userObj={userObj} setCount={setCount} count={count} regReqType={regReqType} setShowdetailsPopup={setShowdetailsPopup} /> : <></>
+                showdetailsPopup ? <RegisterDetailsPopup data={horseObj} setCount={setCount} count={count} regReqType={"HORSE"} setShowdetailsPopup={setShowdetailsPopup} /> : <></>
             }
         </>
     )
 }
 
-export default RequestsList
+export default HorseRequests

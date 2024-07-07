@@ -1,20 +1,18 @@
 import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { getClubByUser, approveUser } from '../../../services/apiService';
-import { Alert } from 'react-bootstrap';
-import ClubMemberDetails from './clubmemberdetailspopup';
-import InstituteMemberDetails from './institutememberdetailspopup';
-import IndividualDetails from './individualmemberdetailspopup';
-import LifeTimeIndividualDetails from './lifetimeIndividualDetailspopup';
+import { approveUser, approveHorse, approveRider } from '../../../services/apiService';
 import { useAppContext } from '../../../context';
 import { toast } from 'react-toastify';
-import { EVENT_STATUS, USER_ROLES, USER_STATUS } from '../../../utils/constants';
-export default function RegisterDetailsPopup({userObj, setCount, count, regReqType, setShowdetailsPopup}) {
-  const { userId, approvedComment } = userObj;
+import { USER_ROLES, USER_STATUS } from '../../../utils/constants';
+import HorseDetails from './horses/horseDetails';
+import RiderDetails from './riders/riderDetails';
+import MemberDetails from './memberDetails';
+export default function RegisterDetailsPopup({data, setCount, count, regReqType, setShowdetailsPopup}) {
   const {state} = useAppContext();
+  const { approvedComment } = data;
   const { userData } = state;
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [error, setError] = useState(false);
   const [reason, setReason] = useState(approvedComment);
   const handleClose = async () => {
@@ -22,11 +20,19 @@ export default function RegisterDetailsPopup({userObj, setCount, count, regReqTy
   };
   const handleSubmit = async () => {
     try {
-      const requestObj = { ...userObj };
+      const requestObj = { ...data };
       const status = userData.userRole === USER_ROLES.ADMIN ? USER_STATUS.REVIEW : USER_STATUS.PUBLISH;
-      requestObj.status = status;
-      requestObj.approvedComment = reason;
-      await approveUser(requestObj);
+      requestObj.approvedComment = userData.userRole === USER_ROLES.ADMIN ? reason : `${approvedComment} + '@_&_@' + ${reason}`;
+      if(regReqType === 'HORSE') {
+        requestObj.horseStatus = status;
+        await approveHorse(requestObj);
+      } else if(regReqType === 'RIDER') {
+        requestObj.riderStatus = status;
+        await approveRider(requestObj);
+      } else {
+        requestObj.status = status;
+        await approveUser(requestObj);
+      }
       toast.success("Approved successfully!");
       setCount(count + 1);
       setShowdetailsPopup(false);
@@ -34,22 +40,27 @@ export default function RegisterDetailsPopup({userObj, setCount, count, regReqTy
       toast.error(error);
     }
   };
-  const [memberData, setMemberData] = useState({});
 
   const renderComp = () => {
     let comp = <></>;
     switch(regReqType) {
         case 'CLUB':
-            comp = <ClubMemberDetails userData={memberData} />
+            comp = <MemberDetails data={data} regReqType={regReqType} setError={setError} setShow={setShow} setShowdetailsPopup={setShowdetailsPopup} />
             break;
         case 'INST':
-            comp = <InstituteMemberDetails userData={memberData} />
+            comp = <MemberDetails data={data} regReqType={regReqType} setError={setError} setShow={setShow} setShowdetailsPopup={setShowdetailsPopup} />
             break;
         case 'INDI':
-            comp = <IndividualDetails userData={memberData} />
+            comp = <MemberDetails data={data} regReqType={regReqType} setError={setError} setShow={setShow} setShowdetailsPopup={setShowdetailsPopup} />
             break;
         case 'LIFE':
-            comp = <LifeTimeIndividualDetails userData={memberData} />
+            comp = <MemberDetails data={data} regReqType={regReqType} setError={setError} setShow={setShow} setShowdetailsPopup={setShowdetailsPopup} />
+            break;
+        case 'HORSE':
+            comp = <HorseDetails data={data} />
+            break;
+        case 'RIDER':
+            comp = <RiderDetails data={data} />
             break;
         default:
             comp = <></>
@@ -58,24 +69,6 @@ export default function RegisterDetailsPopup({userObj, setCount, count, regReqTy
 
     return comp;
   }
-
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const response = await getClubByUser(regReqType, userId);
-            setMemberData(response.data);
-            setShow(true);
-            setError(false);
-        } catch (err) {
-            toast.error(err);
-            setShow(false);
-            setError(true);
-            setShowdetailsPopup(false);
-        }
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <>
@@ -88,12 +81,22 @@ export default function RegisterDetailsPopup({userObj, setCount, count, regReqTy
               <Modal.Title style={{
                 color: 'black'
               }}>
-                Member Details!
+                Details!
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {
                     renderComp()
+                }
+                {
+                  userData.userRole === USER_ROLES.SEC_ADMIN && (
+                    <div class="col-md-12 text-end mt-2">
+                      <div class="mb-3 text-start">
+                          <label class="form-label" for="">Admin Comment</label>
+                          <p>{approvedComment?.split('@_&_@')[0]}</p>
+                      </div>
+                    </div>
+                  )
                 }
                 <div class="col-md-12 text-end mt-2">
                     <div class="mb-3 text-start">
