@@ -14,7 +14,7 @@ export default function RegisterDetailsPopup({data, setCount, count, regReqType,
   const { userData } = state;
   const [show, setShow] = useState(true);
   const [error, setError] = useState(false);
-  const [reason, setReason] = useState(approvedComment);
+  const [reason, setReason] = useState();
   const handleClose = async () => {
     setShowdetailsPopup(false);
   };
@@ -22,7 +22,7 @@ export default function RegisterDetailsPopup({data, setCount, count, regReqType,
     try {
       const requestObj = { ...data };
       const status = userData.userRole === USER_ROLES.ADMIN ? USER_STATUS.REVIEW : USER_STATUS.PUBLISH;
-      requestObj.approvedComment = userData.userRole === USER_ROLES.ADMIN ? reason : `${approvedComment} + '@_&_@' + ${reason}`;
+      requestObj.approvedComment = userData.userRole === USER_ROLES.ADMIN ? `${new Date().toLocaleString()}: ${userData.userName}: ${reason}}` : `${new Date().toLocaleString()}: ${userData.userName}: ${reason}@_&_@${approvedComment}`;
       if(regReqType === 'HORSE') {
         requestObj.horseStatus = status;
         await approveHorse(requestObj);

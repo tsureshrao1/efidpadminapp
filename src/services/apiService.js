@@ -81,8 +81,12 @@ export const getPaymentDetailsById = async (id) => {
 export const downloadAttachmentFile = async (attachmentObj) => {
     try {
         const response = await api.post(`/file/downloadattachmentfilebyurl`, attachmentObj, {
-            "accept": 'application/octet-stream',
-            'Content-Type': 'application/json'
+            responseType: 'blob',
+            headers: {
+                "Accept": 'application/octet-stream',
+                "Content-Disposition": `attachment;${attachmentObj.attachmentName}`,
+                'Content-Type': 'application/json'
+            }
         });
         return response.data;
     } catch (error) {

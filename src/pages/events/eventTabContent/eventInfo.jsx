@@ -1,3 +1,4 @@
+import AttachmentTable from "../../../components/attachmentTable";
 import { formatDate } from "../../../services/dateutils";
 
 export default function EventInfoTab({eventObj}) {
@@ -77,6 +78,17 @@ export default function EventInfoTab({eventObj}) {
                 <div className="col-md-3">
                     <label className="form-label text-gray-dark" for="userName">Email</label>
                     <p>{eventObj?.contactEmailId}</p>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-md-12">
+                    <AttachmentTable showDelete={false} attachments={eventObj.fileAttachment} />
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-md-12">
+                    <label className="form-label text-gray-dark" for="userName">About</label>
+                    <p>{eventObj?.about}</p>
                 </div>
             </div>
         </>

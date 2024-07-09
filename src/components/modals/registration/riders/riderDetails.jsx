@@ -4,6 +4,7 @@ import ConfirmRiderContactDetails from './riderContact';
 import ConfirmRiderAddressDetails from './riderAddress';
 import ConfirmRiderIdentityDetails from './riderIdentity';
 import ConfirmRiderEquestrainQualification from './riderEquestrainQualification';
+import ConfirmAttachments from "../../../confirmAttachments";
 
 const RiderDetails = ({data}) => {
     const rider = {...data};
@@ -14,6 +15,7 @@ const RiderDetails = ({data}) => {
             <ConfirmRiderAddressDetails rider={rider} />
             <ConfirmRiderIdentityDetails rider={rider} />
             <ConfirmRiderEquestrainQualification rider={rider} />
+            <ConfirmAttachments attachments={rider.fileAttachment} />
         </Row>
     )
 }

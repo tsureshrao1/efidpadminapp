@@ -11,7 +11,9 @@ const AttachmentTable = ({ attachments , onDelete,showDelete = true}) => {
       const response = await downloadAttachmentFile(attachment);
       // const blob = response.blob();
       const url = window.URL.createObjectURL(
-        new Blob([response]),
+        new Blob([response], {
+          type: "application/octet-stream",
+        })
       );
       const link = document.createElement('a');
       link.href = url;

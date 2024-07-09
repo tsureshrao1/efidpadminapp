@@ -3,6 +3,7 @@ import ConfirmHorseProfile from "./profile";
 import ConfirmOwnerDetails from "./ownerDetails";
 import ConfirmIdentityDetails from "./identityDetails";
 import ConfirmGradingDetails from "./gradingDetails";
+import ConfirmAttachments from "../../../confirmAttachments";
 const HorseDetails = ({data}) => {
     const horse = {...data};
     return (
@@ -11,6 +12,7 @@ const HorseDetails = ({data}) => {
             <ConfirmOwnerDetails horse={horse} />
             <ConfirmIdentityDetails horse={horse} />
             <ConfirmGradingDetails horse={horse} />
+            <ConfirmAttachments attachments={horse.fileAttachment} />
         </Row>
     )
 }

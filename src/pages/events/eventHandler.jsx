@@ -9,12 +9,13 @@ import EventsRequests from './eventsRequests';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { EVENT_STATUS } from '../../utils/constants';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import EventDetails from './eventDetails';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../services/dateutils';
 import EventInfoTab from './eventTabContent/eventInfo';
 import EventsResults from './eventResults';
+import { useAppContext } from '../../context';
 const eventStageObj = {
     DRAFT: 'Update',
     REGISTER: 'Review',
@@ -24,7 +25,10 @@ const eventStageObj = {
 
 export default function EventHandler() {
     const location = useLocation();
-    const { state, pathname } = location;
+    const navigate = useNavigate();
+    const {state} = useAppContext();
+    const {userData} = state;
+    const { pathname } = location;
     const urlParts = pathname.split('/');
     const [eventId, setEventId] = useState(urlParts[urlParts.length - 1]);
     const [eventObj, setEventObj] = useState({});
@@ -38,10 +42,10 @@ export default function EventHandler() {
         let comment = eventObj.approvalComments;
         if(eventObj.eventStatus === EVENT_STATUS.REGISTER) {
             eventStatus = EVENT_STATUS.REVIEW;
-            comment = approvalComments;
+            comment = `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}}`;
         } else if(eventObj.eventStatus === EVENT_STATUS.REVIEW) {
             eventStatus = EVENT_STATUS.PUBLISH;
-            comment = `${eventObj.approvalComments}@_&_@${approvalComments}`;
+            comment = `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}}@_&_@${eventObj.approvalComments}}`;
         }
         const formDetails = {
             ...eventObj,
@@ -51,6 +55,7 @@ export default function EventHandler() {
         try {
             await updateEventAPI(formDetails);
             toast.success(`Event ${eventStatus.toLowerCase()} successfully!`);
+            navigate(location.state.from);
         } catch (e) {
             toast.error(e);
         }
@@ -93,13 +98,13 @@ export default function EventHandler() {
             ) : (
                 <>
                     <h2>
-                        <Link to={state.from}  style={{
+                        <Link to={location.state.from}  style={{
                         marginRight: '10px'
                     }}><i class="fa fa-arrow-left"></i></Link> {eventStage} Event
                     </h2>
                     <Form style={{
                         marginBottom: '20px',
-                    }}>
+                    }} onSubmit={handleSubmit}>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
@@ -311,16 +316,6 @@ export default function EventHandler() {
                                                 </div>
                                             </Tab>
                                         }
-                                        <Tab eventKey="about" title="About">
-                                            <div class="card-body">
-                                                <div className="row">
-                                                    <div className="col-md-12">
-                                                        <label className="form-label text-gray-dark" for="userName">About</label>
-                                                        <p>{eventObj?.about}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Tab>
                                     </Tabs>
                                 </div>
                             </div>

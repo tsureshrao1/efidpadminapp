@@ -175,18 +175,18 @@ export default function EventDetails({eventObj = {}}) {
                 <h2>
                     <Link to={NAV_ROUTES.DRAFTEVENTSLIST} style={{
                         marginRight: '10px'
-                    }}><i class="fa fa-arrow-left"></i></Link>{eventStage} Event
+                    }}><i className="fa fa-arrow-left"></i></Link>{eventStage} Event
                 </h2>
             )}
             <Form noValidate validated={validated} onSubmit={handleSubmit} style={{
                 marginBottom: '20px',
             }}>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="card">
                             <Tabs activeKey={activeIndex} onSelect={(activeKey) => setActiveIndex(activeKey)}>
                                 <Tab eventKey="home" title="Event Details">
-                                    <div class="card-body">
+                                    <div className="card-body">
                                         <Row className="mb-3">
                                             <Form.Group as={Col} md="4" controlId="validationCustom01">
                                                 <Form.Label>Event name</Form.Label>
@@ -405,11 +405,11 @@ export default function EventDetails({eventObj = {}}) {
                                     </div>
                                 </Tab>
                                 <Tab eventKey="disciplines" title="Disciplines">
-                                    <div class="card-body">
+                                    <div className="card-body">
                                         {
                                             disciplines.map((discipline, index) => {
                                                 return (
-                                                    <Row style={{
+                                                    <Row key={index} style={{
                                                             border: '1px solid silver',
                                                             padding: '20px 0px',
                                                             marginBottom: '20px'
@@ -510,7 +510,7 @@ export default function EventDetails({eventObj = {}}) {
                                                             </div>
                                                             {
                                                                 discipline.efiEventsDisciplinesCategoryList.map((category, categoryIndex) => (
-                                                                    <div style={
+                                                                    <div key={categoryIndex} style={
                                                                         (eventStatus === EVENT_STATUS.PUBLISH && category.efiEventsDisciplinesCategoryId && category.efiEventsDisciplinesCategoryId === selectedCategory) ? {
                                                                             background: 'whitesmoke'
                                                                         } : {}
@@ -540,7 +540,7 @@ export default function EventDetails({eventObj = {}}) {
                                                                                         >
                                                                                             <option value="">Select Category</option>
                                                                                             {
-                                                                                                DISCIPLINE_CONF[discipline.eventDisciplineName]?.map(catType => <option value={catType}>{catType}</option>)
+                                                                                                DISCIPLINE_CONF[discipline.eventDisciplineName]?.map((catType, index) => <option key={index} value={catType}>{catType}</option>)
                                                                                             }
                                                                                         </Form.Control>
                                                                                         <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
