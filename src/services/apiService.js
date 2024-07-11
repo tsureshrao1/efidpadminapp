@@ -151,7 +151,7 @@ export const approveHorse = async (requestObj) => {
 
 export const approveRider = async (requestObj) => {
     try {
-        const response = await api.put(`/riders/approverider`, requestObj);
+        const response = await api.put(`/riders/updaterider`, requestObj);
         return response;
     } catch (error) {
         throw error;

@@ -15,14 +15,17 @@ import HorseRequests from './pages/requestslist/horse';
 import RiderRequests from './pages/requestslist/rider';
 import SideCanvas from './components/canvas';
 import Popup from './components/modals/registration/quickview';
+import { useAppContext } from './context';
 function App() {
+  const { state } = useAppContext();
+  const { userData } = state;
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route element={sessionStorage.getItem("USER_DETAILS") ? <Navigate to={NAV_ROUTES.HOME} /> : <LoginComponent />} path={NAV_MODULE_NAME}>
+          <Route element={userData && Object.keys(userData).length > 0 ? <Navigate to={NAV_ROUTES.HOME} /> : <LoginComponent />} path={NAV_MODULE_NAME}>
           </Route>
-          <Route element={sessionStorage.getItem("USER_DETAILS") ? <Navigate to={NAV_ROUTES.HOME} /> : <LoginComponent />} path={NAV_ROUTES.LOGIN}>
+          <Route element={userData && Object.keys(userData).length > 0 ? <Navigate to={NAV_ROUTES.HOME} /> : <LoginComponent />} path={NAV_ROUTES.LOGIN}>
           </Route>
           <Route element={<ProtectedRoutes />}>
             <Route element={<GridExample />} path={NAV_ROUTES.HOME} />

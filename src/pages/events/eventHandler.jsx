@@ -42,10 +42,10 @@ export default function EventHandler() {
         let comment = eventObj.approvalComments;
         if(eventObj.eventStatus === EVENT_STATUS.REGISTER) {
             eventStatus = EVENT_STATUS.REVIEW;
-            comment = `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}}`;
+            comment = `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}`;
         } else if(eventObj.eventStatus === EVENT_STATUS.REVIEW) {
             eventStatus = EVENT_STATUS.PUBLISH;
-            comment = `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}}@_&_@${eventObj.approvalComments}}`;
+            comment = `${eventObj.approvalComments}@_&_@${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}`;
         }
         const formDetails = {
             ...eventObj,

@@ -16,7 +16,7 @@ function AdminHeaderSection({ isLogin = false }) {
     const { userData } = state;
     const openLoginPage = async () => {
         await sessionStorage.clear();
-        await setUserData(null);
+        await setUserData({});
         setTimeout(() => {
             navigate(NAV_ROUTES.LOGIN);
         }, 100)
@@ -70,7 +70,7 @@ function AdminHeaderSection({ isLogin = false }) {
                                             fontSize: '30px',
                                             color: '#ff8242'
                                         }}>
-                                            {userData != null ? userData?.userRole === USER_ROLES.ADMIN ? 'EFI Admin' : 'EFI Secretary General' : 'Admin Portal'}
+                                            {Object.keys(userData).length > 0 ? userData?.userRole === USER_ROLES.ADMIN ? 'EFI Admin' : 'EFI Secretary General' : 'Admin Portal'}
                                         </div>
                                         {
                                             isLogin ? 
