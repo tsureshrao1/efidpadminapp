@@ -55,7 +55,7 @@ export default function EventHandler() {
         try {
             await updateEventAPI(formDetails);
             toast.success(`Event ${eventStatus.toLowerCase()} successfully!`);
-            navigate(location.state.from);
+            navigate(location?.state?.from);
         } catch (e) {
             toast.error(e);
         }
@@ -98,7 +98,7 @@ export default function EventHandler() {
             ) : (
                 <>
                     <h2>
-                        <Link to={location.state.from}  style={{
+                        <Link to={location?.state?.from}  style={{
                         marginRight: '10px'
                     }}><i class="fa fa-arrow-left"></i></Link> {eventStage} Event
                     </h2>
@@ -180,14 +180,18 @@ export default function EventHandler() {
                                                                                                     {category.horseQualification}
                                                                                                 </div>
                                                                                         </Form.Group>
-                                                                                        <Form.Group as={Col} md="2" controlId={`validationCustom019${index}${categoryIndex}`}>
-                                                                                            <Form.Label>Action</Form.Label>
-                                                                                                <div>
-                                                                                                    <a onClick={() => {toggleEntries(category.efiEventsDisciplinesCategoryId);}} href="javascript:void(0);" className="f-14 me-2">
-                                                                                                        <i className="fa fa-eye"></i> Participants
-                                                                                                    </a>
-                                                                                                </div>
-                                                                                        </Form.Group>
+                                                                                        {
+                                                                                            eventObj.eventStatus === EVENT_STATUS.PUBLISH && (
+                                                                                                <Form.Group as={Col} md="2" controlId={`validationCustom019${index}${categoryIndex}`}>
+                                                                                                    <Form.Label>Action</Form.Label>
+                                                                                                    <div>
+                                                                                                        <a onClick={() => {toggleEntries(category.efiEventsDisciplinesCategoryId);}} href="javascript:void(0);" className="f-14 me-2">
+                                                                                                            <i className="fa fa-eye"></i> Participants
+                                                                                                        </a>
+                                                                                                    </div>
+                                                                                                </Form.Group>
+                                                                                            )
+                                                                                        }
                                                                                     </Row>
                                                                                 </div>
                                                                         </div>

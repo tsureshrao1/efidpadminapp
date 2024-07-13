@@ -7,8 +7,7 @@ const initialState = {
     canvasContent: {
         title: '',
         type: '',
-        data: '',
-        id: ''
+        data: {}
     },
     setCanvasContent: (canvasContent) => {}
 };

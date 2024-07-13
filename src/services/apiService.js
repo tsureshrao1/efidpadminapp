@@ -58,21 +58,8 @@ export const fetchPendingRequestFormAdmin = async (memberType) => {
 
 export const getPaymentDetailsById = async (id) => {
     try {
-        return {
-            "paymentId": 26,
-            "userId": 26,
-            "entityId": 0,
-            "entityName": "Event Entry",
-            "paymentType": "QR Code",
-            "paymentStatus": "Success",
-            "amountPaid": 2567,
-            "paymentGatewayId": "1233456",
-            "paymentOrderId": "1233456",
-            "paymentSignature": null,
-            "bankName": "yes",
-            "paymentDate": null,
-            "additionalComments": null
-          };
+        const response = await api.get('/payments/getpaymentbypaymentid/' + id);
+        return response;
     } catch (error) {
         throw error;
     }

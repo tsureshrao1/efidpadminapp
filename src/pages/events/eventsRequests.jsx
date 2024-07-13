@@ -71,7 +71,10 @@ export default function EventsRequests({catId}) {
                                 <td>{index + 1}</td>
                                 <td><a href="javascript:void(0)" onClick={() => {showDetails('Rider Details', 'RIDER', entry.riderId)}}>{entry.riderName}</a></td>
                                 <td><a href="javascript:void(0)" onClick={() => {showDetails('Horse Details', 'HORSE', entry.horseId)}}>{entry.horseName}</a></td>
-                                <td><a href="javascript:void(0)" onClick={() => {setCanvasContent({title:'Payment Details!', type:MEM_TYPES.PAYMENT, id:entry.paymentId}); setDisplayCanvas(true)}}>View details</a></td>
+                                <td><a href="javascript:void(0)" onClick={() => {setCanvasContent({title:'Payment Details!', type:MEM_TYPES.PAYMENT, data:{
+                                    id: entry.paymentId,
+                                    comment: entry.additionalDetails
+                                }}); setDisplayCanvas(true)}}>View details</a></td>
                                 <td>{entry.borrowHorse ? 'Yes' : 'No'}</td>
                                 <td>{entry.teamEntry ? 'Yes' : 'No'}</td>
                                 <td>{entry.individualEntry ? 'Yes' : 'No'}</td>
