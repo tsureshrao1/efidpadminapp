@@ -36,6 +36,12 @@ const ConfirmIdentityDetails = ({ horse }) => {
                 </Col>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
+                        label="FEI Registration Number"
+                        value={horse.feiRegistrationNumber}
+                    />
+                </Col>
+                <Col xs={12} sm={6} md={4}>
+                    <DataLabelValue
                         label="Passport Number"
                         value={horse.passportNumber}
                     />

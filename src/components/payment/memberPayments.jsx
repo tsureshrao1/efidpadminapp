@@ -16,8 +16,8 @@ export default function MemberPayment ({userId}) {
     useEffect(() => {
        getPaymentDetails(userId) 
     }, [userId])
-    return (
-        <div className="col-md-12">
+    return (<>
+        { paymentDetails?.length > 0 && (<div className="col-md-12">
             <div className="card" style={cardStyle}>
                 <div className="accordion" id="accordionExample">
                     <div className="accordion-item">
@@ -44,14 +44,21 @@ export default function MemberPayment ({userId}) {
                                             {
                                                 paymentDetails.map((payment, index) => {
                                                     return (
-                                                        <tr key={index}>
-                                                            <td>{index + 1}</td>
-                                                            <td>{payment?.bankName}</td>
-                                                            <td>{payment?.amountPaid}</td>
-                                                            <td>{payment?.paymentGatewayId}</td>
-                                                            <td>{payment?.paymentType}</td>
-                                                            <td>{formatFormDate(payment?.paymentDate)}</td>
-                                                        </tr>
+                                                        <>
+                                                            <tr key={index}>
+                                                                <td>{index + 1}</td>
+                                                                <td>{payment?.bankName}</td>
+                                                                <td>{payment?.amountPaid}</td>
+                                                                <td>{payment?.paymentGatewayId}</td>
+                                                                <td>{payment?.paymentType}</td>
+                                                                <td>{formatFormDate(payment?.paymentDate)}</td>
+                                                            </tr>
+                                                            <tr key={`r${index}`}>
+                                                                <td></td>
+                                                                <td>Comments</td>
+                                                                <td colSpan={4}>{payment?.additionalComments}</td>
+                                                            </tr>
+                                                        </>
                                                     );
                                                 })
                                             }
@@ -63,6 +70,7 @@ export default function MemberPayment ({userId}) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div>) }
+        </>
     )
 }

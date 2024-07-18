@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPaymentDetailsById } from "../../../services/apiService";
 
-export default function PaymentDetails({id, comment}) {
+export default function PaymentDetails({id}) {
     const [data, setData] = useState({});
     const getMoreDetails = async () => {
         let response = await getPaymentDetailsById(id);
@@ -18,13 +18,13 @@ export default function PaymentDetails({id, comment}) {
             <p><strong>Amount Paid: </strong>{data.amountPaid}</p>
             <p><strong>Payment Reference: </strong>{data.paymentOrderId}</p>
             <p><strong>Bank Name: </strong>{data.bankName}</p>
-            {comment  && (
+            {data.additionalComments  && (
                 <>
                     <div>
                         <strong>Comments: </strong>
                     </div>
                     <div>
-                        {comment}
+                        {data.additionalComments}
                     </div>
                 </>
             )}

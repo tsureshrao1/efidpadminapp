@@ -12,39 +12,27 @@ const ConfirmRiderIdentityDetails = ({ rider }) => {
             <Row>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
-                        label="Remount Number"
-                        value={rider.remountNumber}
+                        label="Place of Birth"
+                        value={rider.placeOfBirth}
                     />
 
                 </Col>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
-                        label="Date of Import"
-                        value={displayDate(rider.dateOfImport, "dd-MM-yyyy")}
+                        label="Nationality"
+                        value={rider.nationality}
                     />
                 </Col>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
-                        label="Microchip Number"
-                        value={rider.microChipNumber}
+                        label="Aadhaar Card Number"
+                        value={rider.aadhaarCardNumber}
                     />
                 </Col>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
-                        label="EFI Registration"
-                        value={rider.efiRegistrationNumber}
-                    />
-                </Col>
-                <Col xs={12} sm={6} md={4}>
-                    <DataLabelValue
-                        label="FEI Registration"
-                        value={rider.feiRegistrationNumber}
-                    />
-                </Col>
-                <Col xs={12} sm={6} md={4}>
-                    <DataLabelValue
-                        label="Club/Institute Membership Id"
-                        value={rider.clubMembershipId}
+                        label="Are you Foreigner?"
+                        value={rider.areYouForeigner ? 'Yes' : 'No'}
                     />
                 </Col>
             </Row>

@@ -4,6 +4,7 @@ import ConfirmOwnerDetails from "./ownerDetails";
 import ConfirmIdentityDetails from "./identityDetails";
 import ConfirmGradingDetails from "./gradingDetails";
 import ConfirmAttachments from "../../../confirmAttachments";
+import MemberPayment from "../../../payment/memberPayments";
 const HorseDetails = ({data}) => {
     const horse = {...data};
     return (
@@ -13,6 +14,7 @@ const HorseDetails = ({data}) => {
             <ConfirmIdentityDetails horse={horse} />
             <ConfirmGradingDetails horse={horse} />
             <ConfirmAttachments attachments={horse.fileAttachment} />
+            <MemberPayment userId={horse.horseId} />
         </Row>
     )
 }

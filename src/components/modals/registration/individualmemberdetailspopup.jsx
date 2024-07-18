@@ -86,10 +86,6 @@ export default function IndividualDetails({userData}) {
                                                     <p>{displayDate(userData?.dateOfBirth, "dd-MM-yyyy")}</p>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label class="form-label text-gray-dark" for="userName">Gender</label>
-                                                    <p>{userData?.gender}</p>
-                                                </div>
-                                                <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">Father Name</label>
                                                     <p>{userData?.fatherName}</p>
                                                 </div>
@@ -97,11 +93,17 @@ export default function IndividualDetails({userData}) {
                                                     <label class="form-label text-gray-dark" for="userName">Occupation</label>
                                                     <p>{userData?.occupation}</p>
                                                 </div>
-
+                                                <div class="col-md-4">
+                                                    <label class="form-label text-gray-dark" for="userName">Gender</label>
+                                                    <p>{userData?.gender}</p>
+                                                </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">Mobile Number</label>
-                                                    <p>+{userData?.phoneNumber}</p>
-
+                                                    <p>{userData?.mobileNumber}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label text-gray-dark" for="userName">Phone Number</label>
+                                                    <p>{userData?.phoneNumber}</p>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">Email address</label>
@@ -119,10 +121,7 @@ export default function IndividualDetails({userData}) {
                                                     <label class="form-label text-gray-dark" for="userName">Address Lane 3</label>
                                                     <p>{userData?.addressLine3}</p>
                                                 </div>
-                                                {/* <div class="col-md-4">
-                                                                                <label class="form-label text-gray-dark" for="userName">Address 2</label>
-                                                                                <p>{userData?.userName}</p>
-                                                                            </div> */}
+
                                                 <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">City</label>
                                                     <p>{userData?.city}</p>

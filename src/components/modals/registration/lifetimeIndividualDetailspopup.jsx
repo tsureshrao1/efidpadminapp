@@ -85,16 +85,26 @@ export default function LifeTimeIndividualDetails({userData}) {
                                                     <p>{displayDate(userData?.dateOfBirth, 'yyyy-MM-dd')}</p>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label class="form-label text-gray-dark" for="userName">Gender</label>
-                                                    <p>{userData?.gender}</p>
-                                                </div>
-                                                <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">Father Name</label>
                                                     <p>{userData?.fatherName}</p>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">Occupation</label>
                                                     <p>{userData?.occupation}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label text-gray-dark" for="userName">Gender</label>
+                                                    <p>{userData?.gender}</p>
+                                                </div>
+                                                
+                                                <div class="col-md-4">
+                                                    <label class="form-label text-gray-dark" for="userName">Mobile Number </label>
+                                                    <p>{userData?.mobileNumber}</p>
+                                                </div>
+                                                
+                                                <div class="col-md-4">
+                                                    <label class="form-label text-gray-dark" for="userName">Phone Number</label>
+                                                    <p>{userData?.phoneNumber}</p>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label text-gray-dark" for="userName">Email address</label>

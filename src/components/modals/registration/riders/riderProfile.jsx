@@ -25,8 +25,8 @@ const ConfirmRiderProfile = ({ rider }) => {
                 </Col>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
-                        label="Rank"
-                        value={rider.riderCivility}
+                        label="Gender"
+                        value={rider.gender}
                     />
                 </Col>
                 <Col xs={12} sm={6} md={4}>
@@ -37,20 +37,14 @@ const ConfirmRiderProfile = ({ rider }) => {
                 </Col>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
-                        label="Place of Birth"
-                        value={rider.placeOfBirth}
-                    />
-                </Col>
-                <Col xs={12} sm={6} md={4}>
-                    <DataLabelValue
-                        label="Gender"
-                        value={rider.gender}
-                    />
-                </Col>
-                <Col xs={12} sm={6} md={4}>
-                    <DataLabelValue
                         label="Father Name"
                         value={rider.fatherName}
+                    />
+                </Col>
+                <Col xs={12} sm={6} md={4}>
+                    <DataLabelValue
+                        label="Educational Qualification"
+                        value={rider.educationalQualification}
                     />
                 </Col>
                 <Col xs={12} sm={6} md={4}>
@@ -63,12 +57,6 @@ const ConfirmRiderProfile = ({ rider }) => {
                     <DataLabelValue
                         label="Spouse Name"
                         value={rider.spouseName}
-                    />
-                </Col>
-                <Col xs={12} sm={6} md={4}>
-                    <DataLabelValue
-                        label="Educational Qualification"
-                        value={rider.educationalQualification}
                     />
                 </Col>
                 <Col xs={12} sm={6} md={4}>

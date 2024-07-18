@@ -11,7 +11,7 @@ function SideCanvas() {
     let comp = <></>;
     switch(canvasContent.type) {
         case MEM_TYPES.PAYMENT:
-            comp = <PaymentDetails id={canvasContent.data.id} comment={canvasContent.data.comment}   />
+            comp = <PaymentDetails id={canvasContent.data.id} />
             break;
         default:
             comp = <></>

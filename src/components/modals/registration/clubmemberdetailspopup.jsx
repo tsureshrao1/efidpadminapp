@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import AttachmentTable from '../../attachmentTable';
 import MemberPayment from '../../payment/memberPayments';
+import DataLabelValue from '../../DataLabelValue';
 export default function ClubMemberDetails({userData}) {
   const cardStyle = {
     padding: '0px'
@@ -78,27 +79,27 @@ export default function ClubMemberDetails({userData}) {
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Phone Number</label>
-                                                <p>{userData?.userName}</p>
+                                                <p>{userData?.phoneNumber}</p>
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Mobile Number</label>
-                                                <p>+{userData?.phoneNumber}</p>
+                                                <p>{userData?.mobileNumber}</p>
 
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Email address</label>
-                                                <p>{userData?.email}</p>
+                                                <p>{userData?.emailId}</p>
                                             </div>
                                             <div className="col-md-4">
-                                                <label className="form-label text-gray-dark" for="userName">Address 1</label>
+                                                <label className="form-label text-gray-dark" for="userName">Address Line 1</label>
                                                 <p>{userData?.addressLine1}</p>
                                             </div>
                                             <div className="col-md-4">
-                                                <label className="form-label text-gray-dark" for="userName">Address 2</label>
+                                                <label className="form-label text-gray-dark" for="userName">Address Line 2</label>
                                                 <p>{userData?.addressLine2}</p>
                                             </div>
                                             <div className="col-md-4">
-                                                <label className="form-label text-gray-dark" for="userName">Address 3</label>
+                                                <label className="form-label text-gray-dark" for="userName">Address Line 3</label>
                                                 <p>{userData?.addressLine3}</p>
                                             </div>
                                             {/* <div className="col-md-4">
@@ -189,43 +190,44 @@ export default function ClubMemberDetails({userData}) {
                                         <div className="card-header ps-0 pb-2"><h6> Equestrian Infrastructure at Facility</h6></div>
                                         <div className="card-body p-0">
                                             <div className="row">
-                                              <div className="col-sm-12 input-group">
-                                                <div className="form-check mb-2 me-3">
-                                                    <input className="form-check-input" type="checkbox" value="" id="ridingArena" name="ridingArena"
-                                                        checked={userData.ridingArenaAvailable}
-                                                        disabled
+                                                <div className="col-xs=12 col-sm-6 col-lg-4" >
+                                                    <DataLabelValue
+                                                        label={"Riding Arena"}
+                                                        value={userData?.ridingArenaAvailable ? "Yes" : "No"}
                                                     />
-                                                    <label className="form-check-label" for="ridingArena">Riding Arena</label>
                                                 </div>
-                                                <div className="form-check mb-2 me-3">
-                                                    <input className="form-check-input" type="checkbox" value="" id="showJumpingFacility" name="showJumpingFacility"
-                                                        checked={userData.showJumpingAvailable}
-                                                        disabled
+                                                <div className="col-xs=12 col-sm-6 col-lg-4" >
+                                                    <DataLabelValue
+                                                        label={"Show Jumping Facility"}
+                                                        value={userData?.showJumpingAvailable ? "Yes" : "No"}
                                                     />
-                                                    <label className="form-check-label" for="showJumpingFacility">Show Jumping Facility</label>
                                                 </div>
-                                                <div className="form-check mb-2 me-3">
-                                                    <input className="form-check-input" type="checkbox" value="" id="dressageArena" name="dressageArena"
-                                                        checked={userData.dressageArenaAvailable}
-                                                        disabled
+                                                <div className="col-xs=12 col-sm-6 col-lg-4" >
+                                                    <DataLabelValue
+                                                        label={"Dressage Arena"}
+                                                        value={userData?.dressageArenaAvailable ? "Yes" : "No"}
                                                     />
-                                                    <label className="form-check-label" for="dressageArena">Dressage Arena</label>
                                                 </div>
-                                                <div className="form-check mb-2 me-3">
-                                                    <input className="form-check-input" type="checkbox" value="" id="crossCountryTrainingFacility" name="crossCountryTrainingFacility"
-                                                        checked={userData.xcountryTrainingAvailable}
-                                                        disabled
+                                                <div className="col-xs=12 col-sm-6 col-lg-4" >
+                                                    <DataLabelValue
+                                                        label={"X Country Training Facility"}
+                                                        value={userData?.xcountryTrainingAvailable ? "Yes" : "No"}
                                                     />
-                                                    <label className="form-check-label" for="crossCountryTrainingFacility">X Country Training Facility</label>
                                                 </div>
-                                                <div className="form-check mb-2 me-3">
-                                                    <input className="form-check-input" type="checkbox" value="" id="tentPeggingTrainingFacility" name="tentPeggingTrainingFacility"
-                                                        checked={userData.tentPeggingTrainingAvailable}
-                                                        disabled
+                                                <div className="col-xs=12 col-sm-6 col-lg-4" >
+                                                    <DataLabelValue
+                                                        label={"Tent Pegging Training facility"}
+                                                        value={userData?.tentPeggingTrainingAvailable ? "Yes" : "No"}
                                                     />
-                                                    <label className="form-check-label" for="tentPeggingTrainingFacility">Tent Pegging Training facility</label>
                                                 </div>
-                                              </div>
+                                            </div>
+                                        </div>
+                                        <div className="card-header ps-0 pb-2"><h6> Equestrian Activities</h6></div>
+                                        <div className="card-body p-0">
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <p>{userData?.equestrianActivitiesDetail}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

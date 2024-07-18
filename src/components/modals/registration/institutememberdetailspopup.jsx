@@ -14,7 +14,7 @@ export default function InstituteMemberDetails({userData}) {
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Institute Login Details
+                        Institution Login Details
                       </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
@@ -60,7 +60,7 @@ export default function InstituteMemberDetails({userData}) {
                   <div class="accordion-item">
                       <h2 class="accordion-header">
                           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                              Club Profile
+                          Institution Profile
                           </button>
                       </h2>
                       <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
@@ -68,7 +68,7 @@ export default function InstituteMemberDetails({userData}) {
                               <div class="card-body">
                                   <div class="row">
                                       <div class="col-md-4">
-                                          <label class="form-label text-gray-dark" for="userName">Club Name</label>
+                                          <label class="form-label text-gray-dark" for="userName">Institution Name</label>
                                           <p>{userData?.instituteName}</p>
                                       </div>
                                       <div class="col-md-4">
@@ -77,8 +77,12 @@ export default function InstituteMemberDetails({userData}) {
                                       </div>
                                       <div class="col-md-4">
                                           <label class="form-label text-gray-dark" for="userName">Mobile Number</label>
-                                          <p>+{userData?.mobileNumber}</p>
+                                          <p>{userData?.mobileNumber}</p>
 
+                                      </div>
+                                      <div class="col-md-4">
+                                          <label class="form-label text-gray-dark" for="userName">Contact Name</label>
+                                          <p>{userData?.contactName}</p>
                                       </div>
                                       <div class="col-md-4">
                                           <label class="form-label text-gray-dark" for="userName">Email address</label>
@@ -134,7 +138,7 @@ export default function InstituteMemberDetails({userData}) {
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                Institute Equestrian Details
+                                Equestrian Details
                             </button>
                         </h2>
                         <div id="collapseFive" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
@@ -147,7 +151,7 @@ export default function InstituteMemberDetails({userData}) {
                                         <div class="row">
                                             <div class="col-sm-12">
 
-                                                <p>{userData?.equestrianActivities}</p>
+                                                <p>{userData?.equestrianActivitiesDetail}</p>
                                             </div>
 
                                         </div>
@@ -182,7 +186,7 @@ export default function InstituteMemberDetails({userData}) {
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
-                                Institute Management
+                                Institution Management
                             </button>
                         </h2>
                         <div id="collapseSix" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">

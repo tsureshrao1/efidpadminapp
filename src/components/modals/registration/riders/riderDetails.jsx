@@ -5,6 +5,7 @@ import ConfirmRiderAddressDetails from './riderAddress';
 import ConfirmRiderIdentityDetails from './riderIdentity';
 import ConfirmRiderEquestrainQualification from './riderEquestrainQualification';
 import ConfirmAttachments from "../../../confirmAttachments";
+import MemberPayment from "../../../payment/memberPayments";
 
 const RiderDetails = ({data}) => {
     const rider = {...data};
@@ -16,6 +17,7 @@ const RiderDetails = ({data}) => {
             <ConfirmRiderIdentityDetails rider={rider} />
             <ConfirmRiderEquestrainQualification rider={rider} />
             <ConfirmAttachments attachments={rider.fileAttachment} />
+            <MemberPayment userId={rider.riderId} />
         </Row>
     )
 }
