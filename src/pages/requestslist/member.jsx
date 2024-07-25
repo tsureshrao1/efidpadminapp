@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react'
-import FooterSection from '../../components/footer';
-
 import { fetchPendingRequestFormAdmin } from '../../services/apiService';
 import userProfilePic from '/images/avatar-1.jpg';
 import { formatDate } from '../../services/dateutils';
-import AdminHeaderSection from '../../components/header';
-import { useLocation, useNavigate  } from 'react-router-dom';
 import RegisterDetailsPopup from '../../components/modals/registration/detailspopup';
 import { USER_ROLES, USER_STATUS } from '../../utils/constants';
 import { useAppContext } from '../../context';
+import { useParams } from 'react-router-dom';
 
 
 const cardStyles = {
@@ -47,19 +44,16 @@ function MemberRequest() {
     const [showdetailsPopup, setShowdetailsPopup] = useState(false);
     const [count, setCount] = useState(0);
     const [userObj, setUserObj] = useState();
-    const location = useLocation();
-    const navigate = useNavigate();
-    const reqType = location.pathname?.split('/')[3];
-    if(!reqType) {
-        navigate('/requests/clubs');
-    }
+    const {requestType, userType} = useParams();
+    const isRequests = requestType ? true : false;
+    const reqType = requestType || userType;
     const [regReqType, setRegReqType] = useState('')
     useEffect(() => {
         const reqParam = reqType.substring(0,4).toUpperCase();
         const fetchData = async () => {
             try {
-                const response = await fetchPendingRequestFormAdmin(`${reqParam}/${status}`);
-                setRequestData(response.data);
+                const response = await fetchPendingRequestFormAdmin(`${reqParam}/${status}`, isRequests);
+                setRequestData(response.data.filter(user => user.memberType === reqParam));
                 setRegReqType(reqParam);
             } catch (err) {
                 alert(err);
@@ -114,7 +108,9 @@ function MemberRequest() {
                                                                     </thead>
                                                                     <tbody>
                                                                         {requestData?.map((obj) => (
-                                                                            <tr key={obj?.clubDetails?.id}>
+                                                                            <tr style={{
+                                                                                verticalAlign: 'middle'
+                                                                            }} key={obj?.clubDetails?.id}>
                                                                                 <td><img className="rounded-circle" style={{ "width": "40px" }} src={obj.profilePhoto || userProfilePic} alt="activity-user" /></td>
                                                                                 <td>
                                                                                     <p className="m-0">{obj?.userName}</p>
@@ -147,7 +143,7 @@ function MemberRequest() {
                 </div>
             </div>
             {
-                showdetailsPopup ? <RegisterDetailsPopup data={userObj} setCount={setCount} count={count} regReqType={regReqType} setShowdetailsPopup={setShowdetailsPopup} /> : <></>
+                showdetailsPopup ? <RegisterDetailsPopup dataObj={userObj} setCount={setCount} count={count} regReqType={regReqType} setShowdetailsPopup={setShowdetailsPopup} /> : <></>
             }
         </>
     )

@@ -47,9 +47,19 @@ export const getRiderDetailsById = async (id) => {
     }
 };
 
-export const fetchPendingRequestFormAdmin = async (memberType) => {
+export const fetchAllRiders = async () => {
     try {
-        const response = await api.get('/efiusers/usersbymemtypeandstatus/' + memberType);
+        const response = await api.get(`/riders/allriders`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const fetchPendingRequestFormAdmin = async (memberType, isRequest) => {
+    const url = isRequest ? `/efiusers/usersbymemtypeandstatus/${memberType}` : `/efiusers/allusers`
+    try {
+        const response = await api.get(url);
         return response;
     } catch (error) {
         throw error;
@@ -80,6 +90,15 @@ export const downloadAttachmentFile = async (attachmentObj) => {
         throw error;
     }
 }
+
+export const getAllHorses = async () => {
+    try {
+      const response = await api.get(`horses/allhorses`);
+      return response;
+    } catch (e) {
+      throw e;
+    }
+  };
 
 export const getPaymentDetailsByUserId = async (userId) => {
     try {
@@ -129,7 +148,7 @@ export const approveUser = async (requestObj) => {
 
 export const approveHorse = async (requestObj) => {
     try {
-        const response = await api.put(`/horses/approvehorse`, requestObj);
+        const response = await api.put(`/horses/updatehorse`, requestObj);
         return response;
     } catch (error) {
         throw error;

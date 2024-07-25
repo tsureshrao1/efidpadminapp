@@ -32,6 +32,7 @@ function App() {
             <Route element={<HorseRequests />} path={NAV_ROUTES.HORSE_REQUEST} />
             <Route element={<RiderRequests />} path={NAV_ROUTES.RIDER_REQUEST} />
             <Route element={<MemberRequest />} path={NAV_ROUTES.REQUEST} />
+            <Route element={<MemberRequest />} path={NAV_ROUTES.VIEW} />
             <Route element={<EventDetails />} path={NAV_ROUTES.CREATEEVENT} />
             <Route element={<EventsList eventsStatus="DRAFT" />} path={NAV_ROUTES.DRAFTEVENTSLIST} />
             <Route element={<EventsList eventsStatus="REGISTER" />} path={NAV_ROUTES.REGISTEREDEVENTSLIST} />

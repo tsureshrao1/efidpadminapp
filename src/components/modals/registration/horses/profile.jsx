@@ -44,7 +44,7 @@ const ConfirmHorseProfile = ({ horse }) => {
                 </Col>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
-                        label="Height"
+                        label="Height in cms"
                         value={horse.height}
                     />
                 </Col>

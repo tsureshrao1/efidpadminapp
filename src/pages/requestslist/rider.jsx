@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { fetchRidersByStatus } from '../../services/apiService';
+import { fetchAllRiders } from '../../services/apiService';
 import userProfilePic from '/images/gal.jpg';
 import { formatDate } from '../../services/dateutils';
 import RegisterDetailsPopup from '../../components/modals/registration/detailspopup';
-import { USER_ROLES, USER_STATUS } from '../../utils/constants';
+import { USER_ROLES, USER_STATUS, NAV_SUB_ROUTES } from '../../utils/constants';
 import { useAppContext } from '../../context';
+import { useParams } from 'react-router-dom';
 
 
 const cardStyles = {
@@ -39,6 +40,8 @@ function HorseRequests() {
     const [requestData, setRequestData] = useState([]);
     const {state} = useAppContext()
     const { userData } = state;
+    const { reqType } = useParams();
+    const viewAll = reqType === NAV_SUB_ROUTES.VIEW ? true : false;
     const [showdetailsPopup, setShowdetailsPopup] = useState(false);
     const [count, setCount] = useState(0);
     const [riderObj, setRiderObj] = useState();
@@ -46,14 +49,18 @@ function HorseRequests() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetchRidersByStatus(status);
-                setRequestData(response);
+                const response = await fetchAllRiders();
+                if(viewAll) {
+                    setRequestData(response);
+                } else {
+                    setRequestData(response.filter(item => item.riderStatus.includes(status)));
+                }
             } catch (err) {
                 alert(err);
             }
         };
         fetchData();
-    }, [count]);
+    }, [count, reqType]);
 
     return (
         <>
@@ -136,7 +143,7 @@ function HorseRequests() {
                 </div>
             </div>
             {
-                showdetailsPopup ? <RegisterDetailsPopup data={riderObj} setCount={setCount} count={count} regReqType={"RIDER"} setShowdetailsPopup={setShowdetailsPopup} /> : <></>
+                showdetailsPopup ? <RegisterDetailsPopup dataObj={riderObj} setCount={setCount} count={count} regReqType={"RIDER"} setShowdetailsPopup={setShowdetailsPopup} /> : <></>
             }
         </>
     )

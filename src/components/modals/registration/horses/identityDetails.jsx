@@ -1,9 +1,9 @@
-import { Col, Row } from "react-bootstrap"
+import { Col, Form, Row } from "react-bootstrap"
 import Accordion from "../../../accordion"
 import DataLabelValue from "../../../DataLabelValue"
 import { displayDate } from "../../../../services/dateutils"
 
-const ConfirmIdentityDetails = ({ horse }) => {
+const ConfirmIdentityDetails = ({ horse, setData }) => {
     return (
         <Accordion
             title="Horse Identity Details"
@@ -28,18 +28,44 @@ const ConfirmIdentityDetails = ({ horse }) => {
                         value={horse.microChipNumber}
                     />
                 </Col>
-                <Col xs={12} sm={6} md={4}>
-                    <DataLabelValue
-                        label="EFI Registration Number"
+                <Form.Group as={Col} md="4" controlId={`validationCustom017`}>
+                    <Form.Label>EFI Registration Number</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="EFI Number"
                         value={horse.efiRegistrationNumber}
+                        onChange={(e) => {
+                            setData({
+                                ...horse,
+                                efiRegistrationNumber: e.target.value
+                            })
+                        }}
                     />
-                </Col>
-                <Col xs={12} sm={6} md={4}>
-                    <DataLabelValue
-                        label="FEI Registration Number"
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                        Rider EFI required.
+                    </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="4" controlId={`validationCustom017`}>
+                    <Form.Label>FEI Registration Number</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        placeholder="FEI number"
                         value={horse.feiRegistrationNumber}
+                        onChange={(e) => {
+                            setData({
+                                ...horse,
+                                feiRegistrationNumber: e.target.value
+                            })
+                        }}
                     />
-                </Col>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                        Rider FEI required.
+                    </Form.Control.Feedback>
+                </Form.Group>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
                         label="Passport Number"

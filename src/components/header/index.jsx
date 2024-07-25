@@ -7,7 +7,7 @@ import logo from '/images/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context';
 import { useLocation } from 'react-router-dom';
-import { NAV_ROUTES, NAV_REQUEST_ROUTES, NAV_SUB_ROUTES, NAV_REQUEST_SUB_ROUTES, USER_ROLES } from '../../utils/constants';
+import { NAV_ROUTES, NAV_REQUEST_ROUTES, NAV_SUB_ROUTES, NAV_REQUEST_SUB_ROUTES, USER_ROLES, NAV_VIEW_ROUTES } from '../../utils/constants';
 function AdminHeaderSection({ isLogin = false }) {
     const navigate = useNavigate();
     const location = useLocation();
@@ -107,11 +107,31 @@ function AdminHeaderSection({ isLogin = false }) {
                                                                     <li><a href="#">Registration</a></li>
                                                                 </ul>
                                                             </li>
+                                                            <li className={pathDetails[2] === NAV_SUB_ROUTES.VIEW ? "active" : ''}> <a href="javascript:;">View<i className="fa fa-chevron-down"></i></a>
+                                                                <ul className="sub-menu">
+                                                                    <li>
+                                                                        <a  href="javascript:;">Users<i style={{
+                                                                            color: '#ff8242',
+                                                                            display: 'inline-block',
+                                                                            lineHeight: '20px'
+                                                                        }} className="fa fa-chevron-right"></i></a>
+                                                                        <ul className="sub-menu">
+                                                                            <li><Link to={NAV_VIEW_ROUTES.CLUBS}>CLUBS</Link></li>
+                                                                            <li><Link to={NAV_VIEW_ROUTES.INSTITUTES}>INSTITUTES</Link></li>
+                                                                            <li><Link to={NAV_VIEW_ROUTES.INDIVIDUALS}>INDIVIDUALS</Link></li>
+                                                                            <li><Link to={NAV_VIEW_ROUTES.LIFETIMEINDIVIDUALS}>LIFETIME INDIVIDUALS</Link></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li><Link to={NAV_VIEW_ROUTES.HORSE}>Horses</Link></li>
+                                                                    <li><Link to={NAV_VIEW_ROUTES.RIDER}>Riders</Link></li>
+                                                                </ul>
+                                                            </li>
                                                             <li> <a href="javascript:;">Search DB</a></li>
+                                                            
                                                             <li className={pathDetails[2] === NAV_SUB_ROUTES.REQUEST ? "has-mega-menu active" : 'has-mega-menu'}> <a href="javascript:;">Approval Requests<i className="fa fa-chevron-down"></i></a>
                                                                 <ul className="sub-menu">
                                                                     <li>
-                                                                        <a  href="javascript:;">Registration Request <i style={{
+                                                                        <a  href="javascript:;">User Requests <i style={{
                                                                 color: '#ff8242',
                                                                 display: 'inline-block',
                                                                 lineHeight: '20px'
@@ -123,8 +143,8 @@ function AdminHeaderSection({ isLogin = false }) {
                                                                             <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.LIFETIMEINDIVIDUALS ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.LIFETIMEINDIVIDUALS}>LIFETIME INDIVIDUALS</Link></li>
                                                                         </ul>
                                                                     </li>
-                                                                    <li><Link to={NAV_ROUTES.HORSE_REQUEST}>Horse Request</Link></li>
-                                                                    <li><Link to={NAV_ROUTES.RIDER_REQUEST}>Rider Request</Link></li>
+                                                                    <li><Link to={NAV_REQUEST_ROUTES.HORSE}>Horse Request</Link></li>
+                                                                    <li><Link to={NAV_REQUEST_ROUTES.RIDER}>Rider Request</Link></li>
                                                                 </ul>
                                                             </li>
                                                         </ul>

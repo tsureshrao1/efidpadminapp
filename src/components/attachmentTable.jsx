@@ -32,8 +32,8 @@ const AttachmentTable = ({ attachments , onDelete,showDelete = true}) => {
       link.parentNode.removeChild(link);
     }
 
-     const attachmentLink = (attachment) => {
-        return <a href="javascript: void(0)" onClick={() => {downloadAttachment(attachment)}}>{attachment.attachmentName}</a>;
+    const attachmentLink = (attachment) => {
+      return <a href="javascript: void(0)" onClick={() => {downloadAttachment(attachment)}}>{attachment.attachmentName}</a>;
     };
 
     const deleteAttachment = (rowData) => {
@@ -54,7 +54,7 @@ const AttachmentTable = ({ attachments , onDelete,showDelete = true}) => {
         {
             showDelete && 
             <Column body={deleteAttachment} header="Delete" style={{ textAlign: 'center', width: '8em' }}></Column>
-        }       
+        }
       </DataTable>
     </div>
   );

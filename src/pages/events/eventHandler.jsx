@@ -42,11 +42,12 @@ export default function EventHandler() {
         let comment = eventObj.approvalComments;
         if(eventObj.eventStatus === EVENT_STATUS.REGISTER) {
             eventStatus = EVENT_STATUS.REVIEW;
-            comment = `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}`;
         } else if(eventObj.eventStatus === EVENT_STATUS.REVIEW) {
             eventStatus = EVENT_STATUS.PUBLISH;
-            comment = `${eventObj.approvalComments}@_&_@${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}`;
         }
+        comment = eventObj.approvalComments ?
+            `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}@_&_@${eventObj.approvalComments}` :
+            `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}`;
         const formDetails = {
             ...eventObj,
             eventStatus,
@@ -205,27 +206,19 @@ export default function EventHandler() {
                                             <Row style={{
                                                 marginBottom: '20px'
                                             }}>
-                                                { (eventObj.eventStatus === EVENT_STATUS.REVIEW || eventObj.eventStatus === EVENT_STATUS.PUBLISH) && 
+                                                { eventObj?.approvalComments && 
                                                     <Col md="12" style={{
                                                         marginBottom: '20px'
                                                     }}>
-                                                        Admin comment:
-                                                        <div>
-                                                            {eventObj.approvalComments.split('@_&_@')[0]}
-                                                        </div>
-                                                    </Col>
-                                                }
-                                                { eventObj.eventStatus === EVENT_STATUS.PUBLISH && 
-                                                    <Col md="12">
-                                                       Secretary General comment: 
-                                                       <div>
-                                                            {eventObj.approvalComments.split('@_&_@')[1]}
-                                                       </div>
+                                                        <label className="form-label">Comments</label>
+                                                        {eventObj?.approvalComments?.split('@_&_@')?.map((comment, index) => (
+                                                            <p key={index}>{comment}</p>
+                                                        ))}
                                                     </Col>
                                                 }
                                                 { eventObj.eventStatus !== EVENT_STATUS.PUBLISH && 
                                                     <Form.Group as={Col} md="12" controlId={`validationCustom0178`}>
-                                                        <Form.Label>Comments</Form.Label>
+                                                        <Form.Label>Comment</Form.Label>
                                                         <Form.Control
                                                             required
                                                             as="textarea"

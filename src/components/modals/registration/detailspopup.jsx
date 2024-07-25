@@ -8,8 +8,9 @@ import { USER_ROLES, USER_STATUS } from '../../../utils/constants';
 import HorseDetails from './horses/horseDetails';
 import RiderDetails from './riders/riderDetails';
 import MemberDetails from './memberDetails';
-export default function RegisterDetailsPopup({data, setCount, count, regReqType, setShowdetailsPopup}) {
+export default function RegisterDetailsPopup({dataObj, setCount, count, regReqType, setShowdetailsPopup}) {
   const {state} = useAppContext();
+  const[data, setData] = useState(dataObj);
   const { approvedComment } = data;
   const { userData } = state;
   const [show, setShow] = useState(true);
@@ -18,11 +19,31 @@ export default function RegisterDetailsPopup({data, setCount, count, regReqType,
   const handleClose = async () => {
     setShowdetailsPopup(false);
   };
-  const handleSubmit = async () => {
+  const handleSubmit = async (approve) => {
     try {
       const requestObj = { ...data };
-      const status = userData.userRole === USER_ROLES.ADMIN ? USER_STATUS.REVIEW : USER_STATUS.PUBLISH;
-      requestObj.approvedComment = userData.userRole === USER_ROLES.ADMIN ? `${new Date().toLocaleString()}: ${userData.userName}: ${reason}` : `${new Date().toLocaleString()}: ${userData.userName}: ${reason}@_&_@${approvedComment}`;
+      let status =  '';
+      if(regReqType === 'HORSE') {
+        status = requestObj.horseStatus;
+      } else if(regReqType === 'RIDER') {
+        status = requestObj.riderStatus;
+      } else {
+        status = requestObj.status;
+      }
+      if(approve) {
+        status = userData.userRole === USER_ROLES.ADMIN
+          ? status.replace(USER_STATUS.REGISTER, USER_STATUS.REVIEW)
+          : USER_STATUS.ACTIVE;
+      } else {
+        if(!reason) {
+          toast.error("Reason is mandatory for reject");
+          return;
+        }
+        status = userData.userRole === USER_ROLES.ADMIN
+          ? status.replace(USER_STATUS.REGISTER, USER_STATUS.REJECT)
+          : status.replace(USER_STATUS.REVIEW, USER_STATUS.REJECT);
+      }
+      requestObj.approvedComment = approvedComment ? `${new Date().toLocaleString()}: ${userData.userName}: ${reason}@_&_@${approvedComment}` : `${new Date().toLocaleString()}: ${userData.userName}: ${reason}`;
       if(regReqType === 'HORSE') {
         requestObj.horseStatus = status;
         await approveHorse(requestObj);
@@ -33,7 +54,7 @@ export default function RegisterDetailsPopup({data, setCount, count, regReqType,
         requestObj.status = status;
         await approveUser(requestObj);
       }
-      toast.success("Approved successfully!");
+      toast.success("Updated successfully!");
       setCount(count + 1);
       setShowdetailsPopup(false);
     } catch(error) {
@@ -57,10 +78,10 @@ export default function RegisterDetailsPopup({data, setCount, count, regReqType,
             comp = <MemberDetails data={data} regReqType={regReqType} setError={setError} setShow={setShow} setShowdetailsPopup={setShowdetailsPopup} />
             break;
         case 'HORSE':
-            comp = <HorseDetails data={data} />
+            comp = <HorseDetails data={data} setData={setData} />
             break;
         case 'RIDER':
-            comp = <RiderDetails data={data} />
+            comp = <RiderDetails data={data} setData={setData} />
             break;
         default:
             comp = <></>
@@ -88,20 +109,21 @@ export default function RegisterDetailsPopup({data, setCount, count, regReqType,
                 {
                     renderComp()
                 }
-                {
-                  userData.userRole === USER_ROLES.SEC_ADMIN && (
-                    <div class="col-md-12 text-end mt-2">
-                      <div class="mb-3 text-start">
-                          <label class="form-label" for="">Admin Comment</label>
-                          <p>{approvedComment?.split('@_&_@')[0]}</p>
-                      </div>
+                {approvedComment && (
+                  <div className="col-md-12 text-end mt-2">
+                    <div className="mb-3 text-start">
+                        <label className="form-label">Comments</label>
+                        {approvedComment?.split('@_&_@')?.map((comment, index) => (
+                          <p key={index}>{comment}</p>
+                        ))}
                     </div>
-                  )
+                  </div>
+                )
                 }
-                <div class="col-md-12 text-end mt-2">
-                    <div class="mb-3 text-start">
-                        <label class="form-label" for="">Reason</label>
-                        <textarea class="form-control" id="OtherDetails" rows="2" value={reason} onChange={(e) => {setReason(e.target.value)}} />
+                <div className="col-md-12 text-end mt-2">
+                    <div className="mb-3 text-start">
+                        <label className="form-label">Reason</label>
+                        <textarea className="form-control" id="OtherDetails" rows="2" value={reason} onChange={(e) => {setReason(e.target.value)}} />
                     </div>
                 </div>
             </Modal.Body>

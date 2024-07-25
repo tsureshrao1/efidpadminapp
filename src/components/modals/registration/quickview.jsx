@@ -48,10 +48,10 @@ export default function Popup() {
             comp = <MemberDetails data={data} regReqType={regReqType} setError={setError} setShow={setDisplayPopup} />
             break;
         case 'HORSE':
-            comp = <HorseDetails data={data} />
+            comp = <HorseDetails data={data} setData={setData} />
             break;
         case 'RIDER':
-            comp = <RiderDetails data={data} />
+            comp = <RiderDetails data={data} setData={setData} />
             break;
         default:
             comp = <></>
