@@ -5,23 +5,22 @@ import InstituteMemberDetails from './institutememberdetailspopup';
 import IndividualDetails from './individualmemberdetailspopup';
 import LifeTimeIndividualDetails from './lifetimeIndividualDetailspopup';
 import { toast } from 'react-toastify';
-export default function MemberDetails({data, regReqType, setShow, setError, setShowdetailsPopup = (f)=>{}}) {
+export default function MemberDetails({data, setData, regReqType, setShow, setError, setShowdetailsPopup = (f)=>{}}) {
   const { userId } = data;
-  const [memberData, setMemberData] = useState({});
   const renderComp = () => {
     let comp = <></>;
     switch(regReqType) {
         case 'CLUB':
-            comp = <ClubMemberDetails userData={memberData} />
+            comp = <ClubMemberDetails setData={setData} memberData={data} />
             break;
         case 'INST':
-            comp = <InstituteMemberDetails userData={memberData} />
+            comp = <InstituteMemberDetails setData={setData} memberData={data} />
             break;
         case 'INDI':
-            comp = <IndividualDetails userData={memberData} />
+            comp = <IndividualDetails setData={setData} memberData={data} />
             break;
         case 'LIFE':
-            comp = <LifeTimeIndividualDetails userData={memberData} />
+            comp = <LifeTimeIndividualDetails setData={setData} memberData={data} />
             break;
         default:
             comp = <></>
@@ -35,7 +34,7 @@ export default function MemberDetails({data, regReqType, setShow, setError, setS
     const fetchData = async () => {
         try {
             const response = await getClubByUser(regReqType, userId);
-            setMemberData(response.data);
+            setData(response?.data);
             setShow(true);
             setError(false);
         } catch (err) {

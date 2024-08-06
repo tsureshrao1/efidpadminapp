@@ -34,11 +34,11 @@ export default function EventInfoTab({eventObj}) {
                     <p>{formatDate(eventObj?.eventEndDate)}</p>
                 </div>
                 <div className="col-md-3">
-                    <label className="form-label text-gray-dark" for="userName">Late fee start date</label>
+                    <label className="form-label text-gray-dark" for="userName">Normal entry cutoff date</label>
                     <p>{formatDate(eventObj?.lateFeeStartDate)}</p>
                 </div>
                 <div className="col-md-3">
-                    <label className="form-label text-gray-dark" for="userName">Registration end date</label>
+                    <label className="form-label text-gray-dark" for="userName">Late entry cutoff date</label>
                     <p>{formatDate(eventObj?.registrationEndDate)}</p>
                 </div>
             </div>

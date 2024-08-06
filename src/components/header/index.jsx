@@ -35,7 +35,7 @@ function AdminHeaderSection({ isLogin = false }) {
                                             <div className="dez-topbar-left">
                                                 <ul className="social-line text-center pull-right">
                                                     <li><a href="javascript:void(0);"><i className="fa fa-envelope-o"></i> <span> efiindianf@yahoo.co.in</span> </a></li>
-                                                    <li><a href="javascript:void(0);"><i className="fa fa-phone"></i> <span> 91-11-25683601 </span> </a></li>
+                                                    <li><a href="javascript:void(0);"><i className="fa fa-phone"></i> <span> 91 7042472080 </span> </a></li>
                                                     <li className="ic-gap">
                                                         <span><a href="javascript:void(0);" className="fa fa-facebook"></a></span>
                                                         <span><a href="javascript:void(0);" className="fa fa-twitter"></a></span>
@@ -126,9 +126,8 @@ function AdminHeaderSection({ isLogin = false }) {
                                                                     <li><Link to={NAV_VIEW_ROUTES.RIDER}>Riders</Link></li>
                                                                 </ul>
                                                             </li>
-                                                            <li> <a href="javascript:;">Search DB</a></li>
                                                             
-                                                            <li className={pathDetails[2] === NAV_SUB_ROUTES.REQUEST ? "has-mega-menu active" : 'has-mega-menu'}> <a href="javascript:;">Approval Requests<i className="fa fa-chevron-down"></i></a>
+                                                            <li className={pathDetails[2] === NAV_SUB_ROUTES.REQUEST ? "has-mega-menu active" : 'has-mega-menu'}> <a href="javascript:;">New Requests<i className="fa fa-chevron-down"></i></a>
                                                                 <ul className="sub-menu">
                                                                     <li>
                                                                         <a  href="javascript:;">User Requests <i style={{

@@ -17,7 +17,7 @@ const RiderDetails = ({data, setData}) => {
             <ConfirmRiderIdentityDetails rider={rider} setData={setData} />
             <ConfirmRiderEquestrainQualification rider={rider} />
             <ConfirmAttachments attachments={rider.fileAttachment} />
-            <MemberPayment userId={rider.riderId} />
+            <MemberPayment id={rider.riderId} isEntity={true} type='HORSE' />
         </Row>
     )
 }

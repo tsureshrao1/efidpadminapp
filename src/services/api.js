@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 const api = axios.create({
-    baseURL: 'http://52.140.16.179:8080/efidigiplatform',
+    // baseURL: 'https://www.efidp.org/efidigiplatform',
+    baseURL: "http://52.140.16.179:8080/efidigiplatform",
    // baseURL: './',
     headers: {
         'Content-Type': 'application/json',

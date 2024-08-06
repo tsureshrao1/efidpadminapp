@@ -35,7 +35,6 @@ export default function EventsResults({catId}) {
                                 <td>{index + 1}</td>
                                 <td>{entry.riderName}</td>
                                 <td>{entry.horseName}</td>
-                                <td>{entry.borrowHorse ? 'Yes' : 'No'}</td>
                                 <td>{entry.teamEntry ? 'Yes' : 'No'}</td>
                                 <td>{entry.individualEntry ? 'Yes' : 'No'}</td>
                             </tr>

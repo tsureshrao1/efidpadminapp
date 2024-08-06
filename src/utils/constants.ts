@@ -70,7 +70,11 @@ export const EVENT_STATUS = {
     REGISTER: 'REGISTER',
     REVIEW: 'REVIEWED',
     PUBLISH: 'PUBLISHED',
-    COMPLETE: 'COMPLETED'
+    REJECT: 'REJECTED',
+    COMPLETE: 'COMPLETED',
+    PUBLISH_REGISTER: 'PUBLISHED_REGISTER',
+    PUBLISH_REVIEW: 'PUBLISHED_REVIEWED',
+    PUBLISH_REJECT: 'PUBLISHED_REJECTED',
 }
 
 export const USER_STATUS = {
@@ -147,4 +151,19 @@ export const DISCIPLINE_LABELS = {
     "EVENTING": 'Eventing Grade',
     "ENDURANCE": 'Endurance Grade',
     "TENT PEGGING": 'Tent Pegging Grade'
+}
+
+export const STATUS_VIEW = {
+    DRAFT: 'Draft',
+    REGISTER: 'Registered',
+    REVIEWED: 'Reviewed',
+    REJECTED: 'Rejected',
+    PUBLISHED: 'Approved',
+    ACTIVE: 'Approved',
+    ACTIVE_REGISTER: 'Registered for new changes',
+    ACTIVE_REVIEWED: 'Reviewed for new changes',
+    ACTIVE_REJECTED: 'Rejected new changes',
+    PUBLISHED_REGISTER: 'Registered for new changes',
+    PUBLISHED_REVIEWED: 'Reviewed for new changes',
+    PUBLISHED_REJECTED: 'Rejected new changes'
 }

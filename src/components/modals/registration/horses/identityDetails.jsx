@@ -2,8 +2,20 @@ import { Col, Form, Row } from "react-bootstrap"
 import Accordion from "../../../accordion"
 import DataLabelValue from "../../../DataLabelValue"
 import { displayDate } from "../../../../services/dateutils"
+import { getHorseRegNum } from "../../../../services/apiService"
+import { useParams } from "react-router-dom"
+import { NAV_SUB_ROUTES } from "../../../../utils/constants"
 
 const ConfirmIdentityDetails = ({ horse, setData }) => {
+    const generateRegNumber = async () => {
+        const responseNum = await getHorseRegNum();
+        setData({
+            ...horse,
+            efiRegistrationNumber: responseNum
+        })
+    }
+    const { reqType } = useParams();
+    const isRequests = reqType === NAV_SUB_ROUTES.VIEW ? false : true;
     return (
         <Accordion
             title="Horse Identity Details"
@@ -28,48 +40,63 @@ const ConfirmIdentityDetails = ({ horse, setData }) => {
                         value={horse.microChipNumber}
                     />
                 </Col>
-                <Form.Group as={Col} md="4" controlId={`validationCustom017`}>
-                    <Form.Label>EFI Registration Number</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="EFI Number"
-                        value={horse.efiRegistrationNumber}
-                        onChange={(e) => {
-                            setData({
-                                ...horse,
-                                efiRegistrationNumber: e.target.value
-                            })
-                        }}
-                    />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                    <Form.Control.Feedback type="invalid">
-                        Rider EFI required.
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md="4" controlId={`validationCustom017`}>
-                    <Form.Label>FEI Registration Number</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        placeholder="FEI number"
-                        value={horse.feiRegistrationNumber}
-                        onChange={(e) => {
-                            setData({
-                                ...horse,
-                                feiRegistrationNumber: e.target.value
-                            })
-                        }}
-                    />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                    <Form.Control.Feedback type="invalid">
-                        Rider FEI required.
-                    </Form.Control.Feedback>
-                </Form.Group>
+                {
+                    isRequests ? (
+                        <>
+                            <Form.Group as={Col} md="4" controlId={`validationCustom017`}>
+                                <Form.Label>EFI Registration Number</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    placeholder="EFI Number"
+                                    value={horse.efiRegistrationNumber}
+                                    onChange={(e) => {
+                                        setData({
+                                            ...horse,
+                                            efiRegistrationNumber: e.target.value
+                                        })
+                                    }}
+                                />
+                                <a style={{cursor: 'pointer'}} href="javascript:void(0)" onClick={generateRegNumber}>Generate New</a>
+                            </Form.Group>
+                            <Form.Group as={Col} md="4" controlId={`validationCustom017`}>
+                                <Form.Label>FEI Registration Number</Form.Label>
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    placeholder="FEI number"
+                                    value={horse.feiRegistrationNumber}
+                                    onChange={(e) => {
+                                        setData({
+                                            ...horse,
+                                            feiRegistrationNumber: e.target.value
+                                        })
+                                    }}
+                                />
+                            </Form.Group>
+                        </>
+                    ) : (
+                        <>
+                            <Col xs={12} sm={6} md={4}>
+                                <DataLabelValue
+                                    label="EFI Registration Number"
+                                    value={horse.efiRegistrationNumber}
+                                />
+                            </Col>
+                            <Col xs={12} sm={6} md={4}>
+                                <DataLabelValue
+                                    label="FEI Registration Number"
+                                    value={horse.feiRegistrationNumber}
+                                />
+                            </Col>
+                        </>
+                    )
+                }
+                
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
-                        label="Passport Number"
-                        value={horse.passportNumber}
+                        label="UELN Number"
+                        value={horse.uelnNumber}
                     />
                 </Col>
                 <Col xs={12} sm={6} md={4}>

@@ -3,7 +3,7 @@ import { fetchPendingRequestFormAdmin } from '../../services/apiService';
 import userProfilePic from '/images/avatar-1.jpg';
 import { formatDate } from '../../services/dateutils';
 import RegisterDetailsPopup from '../../components/modals/registration/detailspopup';
-import { USER_ROLES, USER_STATUS } from '../../utils/constants';
+import { STATUS_VIEW, USER_ROLES, USER_STATUS } from '../../utils/constants';
 import { useAppContext } from '../../context';
 import { useParams } from 'react-router-dom';
 
@@ -52,15 +52,19 @@ function MemberRequest() {
         const reqParam = reqType.substring(0,4).toUpperCase();
         const fetchData = async () => {
             try {
-                const response = await fetchPendingRequestFormAdmin(`${reqParam}/${status}`, isRequests);
-                setRequestData(response.data.filter(user => user.memberType === reqParam));
+                const response = await fetchPendingRequestFormAdmin(reqParam, status, isRequests);
+                if(isRequests) {
+                    setRequestData(response.data.filter(user => user.memberType === reqParam));
+                } else {
+                    setRequestData(response.data)
+                }
                 setRegReqType(reqParam);
             } catch (err) {
                 alert(err);
             }
         };
         fetchData();
-    }, [reqType, count]);
+    }, [requestType, count, userType]);
 
     return (
         <>
@@ -78,7 +82,7 @@ function MemberRequest() {
 
                                                     <div className="card-header borderless" style={{"border-bottom": "var(--bs-card-border-width) solid var(--bs-card-border-color)","padding":"8px"}}>
                                                         <div className="row">
-                                                            <div className="col-md-6"><h5>Recent Requests</h5></div>
+                                                            <div className="col-md-6"><h5>{reqType?.charAt(0)?.toUpperCase() + reqType.substring(1).toLowerCase()} Requests</h5></div>
                                                             <div className="col-md-6 text-end">
                                                             </div>
                                                         </div>
@@ -96,10 +100,13 @@ function MemberRequest() {
                                                                                 Name
                                                                             </th>
                                                                             <th>
-                                                                                Registered by
+                                                                                EFI Number
                                                                             </th>
                                                                             <th>
                                                                                 Registered Date
+                                                                            </th>
+                                                                            <th>
+                                                                                Status
                                                                             </th>
                                                                             <th>
                                                                                 View
@@ -113,13 +120,16 @@ function MemberRequest() {
                                                                             }} key={obj?.clubDetails?.id}>
                                                                                 <td><img className="rounded-circle" style={{ "width": "40px" }} src={obj.profilePhoto || userProfilePic} alt="activity-user" /></td>
                                                                                 <td>
-                                                                                    <p className="m-0">{obj?.userName}</p>
+                                                                                    <p className="m-0">{obj?.userName || obj.clubName || obj.instituteName || obj.individualName || obj.lifeTimeIndividualName}</p>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <h6 className="text-muted">{obj?.createdBy}</h6>
+                                                                                    <h6 className="text-muted">{obj?.efiMemberNumber}</h6>
                                                                                 </td>
                                                                                 <td>
                                                                                     <h6 className="text-muted">{formatDate(obj?.createdDate)}</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    {STATUS_VIEW[obj.status] || 'Registered'}
                                                                                 </td>
                                                                                 <td>
                                                                                     <a href="javascript:void(0);" onClick={() => {setUserObj(obj); setShowdetailsPopup(true)}} className="f-20 me-2"><i className="fa fa-eye"></i></a>

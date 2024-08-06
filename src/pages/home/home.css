@@ -1,0 +1,20 @@
+.home-root-cont {
+    margin-top: 20px;
+    box-sizing: border-box;
+}
+
+.home-item-cont {
+    padding: 20px 20px;
+}
+
+.h-title {
+    text-shadow: 1px 1px 2px pink;
+    font-size: 40px;
+}
+
+.home-item-cont .home-inner-cont {
+    border: 2px solid rgb(255, 130, 66);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}

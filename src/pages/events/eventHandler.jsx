@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 import EventsRequests from './eventsRequests';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { EVENT_STATUS } from '../../utils/constants';
+import { EVENT_STATUS, USER_ROLES } from '../../utils/constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import EventDetails from './eventDetails';
 import { Link } from 'react-router-dom';
@@ -19,8 +19,10 @@ import { useAppContext } from '../../context';
 const eventStageObj = {
     DRAFT: 'Update',
     REGISTER: 'Review',
-    REVIEWED: 'Publish',
-    PUBLISHED: 'Published'
+    REVIEWED: 'Approve',
+    PUBLISHED: 'Published',
+    PUBLISHED_REGISTER: 'Review',
+    PUBLISHED_REVIEWED: 'Approve'
 }
 
 export default function EventHandler() {
@@ -37,20 +39,34 @@ export default function EventHandler() {
     const [validated, setValidated] = useState(false);
     const [approvalComments, setApprovalComments] = useState('');
     const [selectedCategory, setSelectedCategory] = useState();
-    const eventModify = async() => {
+    const eventModify = async(rejected=false) => {
         let eventStatus =  eventObj.eventStatus;
         let comment = eventObj.approvalComments;
-        if(eventObj.eventStatus === EVENT_STATUS.REGISTER) {
-            eventStatus = EVENT_STATUS.REVIEW;
-        } else if(eventObj.eventStatus === EVENT_STATUS.REVIEW) {
-            eventStatus = EVENT_STATUS.PUBLISH;
+        let status =  '';
+        if(!rejected) {
+            status = userData.userRole === USER_ROLES.ADMIN
+            ? eventStatus.replace(EVENT_STATUS.REGISTER, EVENT_STATUS.REVIEW)
+            : EVENT_STATUS.PUBLISH;
+            // if(eventObj.eventStatus === EVENT_STATUS.REGISTER) {
+            //     eventStatus = EVENT_STATUS.REVIEW;
+            // } else if(eventObj.eventStatus === EVENT_STATUS.REVIEW) {
+            //     eventStatus = EVENT_STATUS.PUBLISH;
+            // }
+        } else {
+            if(!approvalComments) {
+                toast.error('Comment is mandatory for rejecting the event');
+                return;
+            }
+            status = userData.userRole === USER_ROLES.ADMIN
+            ? eventStatus.replace(EVENT_STATUS.REGISTER, EVENT_STATUS.REJECT)
+            : eventStatus.replace(EVENT_STATUS.REVIEW, EVENT_STATUS.REJECT);
         }
         comment = eventObj.approvalComments ?
             `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}@_&_@${eventObj.approvalComments}` :
             `${new Date().toLocaleString()}: ${userData.userName}: ${approvalComments}`;
         const formDetails = {
             ...eventObj,
-            eventStatus,
+            eventStatus: status,
             approvalComments: comment
         }
         try {
@@ -241,6 +257,12 @@ export default function EventHandler() {
                                                         display: 'block',
                                                         float: 'right',
                                                     }} type="submit">{eventStage} Event</Button>
+                                                    
+                                                    <Button variant="danger" style={{
+                                                        display: 'block',
+                                                        float: 'right',
+                                                        marginRight: '20px'
+                                                    }} onClick={() => {eventModify(true)}}>Reject Event</Button>
                                                 </div>
                                             </Row>
                                             }

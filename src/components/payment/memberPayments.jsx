@@ -4,18 +4,23 @@ import { getPaymentDetailsByUserId } from "../../services/apiService";
 import { format } from "date-fns";
 import { formatFormDate } from "../../services/dateutils";
 
-export default function MemberPayment ({userId}) {
+export default function MemberPayment ({id, isEntity=false, type}) {
     const cardStyle = {
         padding: '0px'
     }
     const [paymentDetails, setPaymentDetails] = useState([]);
-    const getPaymentDetails = async (userId) => {
-        const response = await getPaymentDetailsByUserId(userId);
-        setPaymentDetails(response);
+    const getPaymentDetails = async (id) => {
+        let response = {}
+        if(isEntity) {
+            response = await getPaymentDetailsByUserId(id, isEntity);
+        } else {
+            response = await getPaymentDetailsByUserId(id, isEntity);
+        }
+        setPaymentDetails(response.filter(item => item.entityName == type));
     }
     useEffect(() => {
-       getPaymentDetails(userId) 
-    }, [userId])
+       getPaymentDetails(id) 
+    }, [id])
     return (<>
         { paymentDetails?.length > 0 && (<div className="col-md-12">
             <div className="card" style={cardStyle}>

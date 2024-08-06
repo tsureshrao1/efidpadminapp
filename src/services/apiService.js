@@ -56,8 +56,26 @@ export const fetchAllRiders = async () => {
     }
 };
 
-export const fetchPendingRequestFormAdmin = async (memberType, isRequest) => {
-    const url = isRequest ? `/efiusers/usersbymemtypeandstatus/${memberType}` : `/efiusers/allusers`
+export const fetchPendingRequestFormAdmin = async (memberType, status, isRequest) => {
+    let url = `/efiusers/usersbymemtypeandstatus/${memberType}/${status}`;
+    if(!isRequest) {
+        switch(memberType) {
+            case 'CLUB':
+                url = '/clubs/allclubs'
+                break;
+            case 'INST':
+                url = '/institutes/allinstitutes'
+                break;
+            case 'INDI':
+                url = '/individuals/allindividual'
+                break;
+            case 'LIFE':
+                url = '/lifetimeindividuals/alllifetimeindividual'
+                break;
+            default:
+                break;
+        }
+    }
     try {
         const response = await api.get(url);
         return response;
@@ -100,16 +118,15 @@ export const getAllHorses = async () => {
     }
   };
 
-export const getPaymentDetailsByUserId = async (userId) => {
+export const getPaymentDetailsByUserId = async (userId, isEntity) => {
+    const url = isEntity ? 'getpaymentbyentityid' : 'getpaymentbyuserid';
     try {
-        const response = await api.get(`/payments/getpaymentbyuserid/${userId}`);
+        const response = await api.get(`/payments/${url}/${userId}`);
         return response.data;
     } catch (error) {
         throw error;
     }
 }
-
-
 export const getClubByUser = async (regReqType, userId) => {
     let path = '';
     switch(regReqType) {
@@ -145,6 +162,69 @@ export const approveUser = async (requestObj) => {
         throw error;
     }
 };
+
+export const getHorseRegNum = async () => {
+    try {
+        const response = await api.get(`/horses/getlatesthorseefiregistrationnumber`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getRiderRegNum = async () => {
+    try {
+        const response = await api.get(`/riders/getlatestriderefiregistrationnumber`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const updateClub = async (requestObj) => {
+    try {
+        const response = await api.put(`/clubs/updateclubbystatus`, requestObj);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const updateInst = async (requestObj) => {
+    try {
+        const response = await api.put(`/institutes/updateinstitutestatus`, requestObj);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const updateIndi = async (requestObj) => {
+    try {
+        const response = await api.put(`/individuals/updateindividualstatus`, requestObj);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const updateLife = async (requestObj) => {
+    try {
+        const response = await api.put(`/lifetimeindividuals/updatelifetimeindividualstatus`, requestObj);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getAllClubs = async () => {
+    try {
+        const response = await api.get(`/clubs/allclubs`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 export const approveHorse = async (requestObj) => {
     try {
@@ -199,3 +279,31 @@ export const uploadFile = async (obj) => {
         throw error;
     }
 };
+
+export const getAllUsers = async () => {
+    try {
+        const response = await api.get(`/efiusers/allusers`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getAllEvents = async () => {
+    try {
+        const response = await api.get(`/events/allevents`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getAllRiders = async () => {
+    try {
+        const response = await api.get(`/riders/allriders`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+

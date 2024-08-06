@@ -3,7 +3,7 @@ import { fetchAllRiders } from '../../services/apiService';
 import userProfilePic from '/images/gal.jpg';
 import { formatDate } from '../../services/dateutils';
 import RegisterDetailsPopup from '../../components/modals/registration/detailspopup';
-import { USER_ROLES, USER_STATUS, NAV_SUB_ROUTES } from '../../utils/constants';
+import { USER_ROLES, USER_STATUS, NAV_SUB_ROUTES, STATUS_VIEW } from '../../utils/constants';
 import { useAppContext } from '../../context';
 import { useParams } from 'react-router-dom';
 
@@ -78,7 +78,7 @@ function HorseRequests() {
 
                                                     <div className="card-header borderless" style={{"border-bottom": "var(--bs-card-border-width) solid var(--bs-card-border-color)","padding":"8px"}}>
                                                         <div className="row">
-                                                            <div className="col-md-6"><h5>Recent Requests</h5></div>
+                                                            <div className="col-md-6"><h5>Rider Requests</h5></div>
                                                             <div className="col-md-6 text-end">
                                                             </div>
                                                         </div>
@@ -99,7 +99,13 @@ function HorseRequests() {
                                                                                 Last Name
                                                                             </th>
                                                                             <th>
+                                                                                EFI Id
+                                                                            </th>
+                                                                            <th>
                                                                                 Registered Date
+                                                                            </th>
+                                                                            <th>
+                                                                                Status
                                                                             </th>
                                                                             <th>
                                                                                 View
@@ -119,7 +125,13 @@ function HorseRequests() {
                                                                                     <h6 className="text-muted">{obj?.riderLastName}</h6>
                                                                                 </td>
                                                                                 <td>
+                                                                                    {obj?.efiRegistrationNumber}
+                                                                                </td>
+                                                                                <td>
                                                                                     <h6 className="text-muted">{formatDate(obj?.createdDate)}</h6>
+                                                                                </td>
+                                                                                <td>
+                                                                                    {STATUS_VIEW[obj.riderStatus]}
                                                                                 </td>
                                                                                 <td>
                                                                                     <a href="javascript:void(0);" onClick={() => {setRiderObj(obj); setShowdetailsPopup(true)}} className="f-20 me-2"><i className="fa fa-eye"></i></a>

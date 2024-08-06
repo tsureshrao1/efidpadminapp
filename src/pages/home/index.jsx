@@ -1,55 +1,50 @@
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import defaultImg from '/images/gal.jpg';
-import AdminHeaderSection from '../../components/header';
-import FooterSection from '../../components/footer';
-
+import './home.css';
+import { UserStatistics } from './userStatistics';
+import { EventStatistics } from './EventStatistics';
+import { HorseStatistics } from './HorseStatistics';
+import { RiderStatistics } from './RiderStatistics';
 function GridExample() {
-    const arr = [
-        {
-            category: 'Horses',
-            bg: 'Primary',
-            total: 30
-        },
-        {
-            category: 'Raiders',
-            bg: 'Danger',
-            total: 40
-        },
-        {
-            category: 'Clubs',
-            bg: 'Info',
-            total: 10
-        },
-        {
-            category: 'Tournaments',
-            bg: 'Warning',
-            total: 5
-        }
-    ]
   return (
     <>
-        <div style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            gap: '20px'
-        }}>
-            {arr.map((item) => (
-                <Card style={{ width: '24rem' }} bg={item.bg.toLowerCase()}>
-                    <Card.Img variant="top" src={defaultImg} />
-                    <Card.Body>
-                    <Card.Title>No. of {item.category}</Card.Title>
-                    <Card.Text>
-                        <h5>
-                            Count: {item.total}
-                        </h5>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    </Card.Text>
-                    </Card.Body>
-                </Card>
-            ))}
-        </div>
+        <h3 className='mt-4'>
+            Welcome to EFI Admin Portal!
+        </h3>
+        <Row className='home-root-cont'>
+            <Col className='home-item-cont' xs={12} md={6}>
+                <div className='home-inner-cont'>
+                    <div className='h-title'>
+                        Users
+                    </div>
+                    <UserStatistics />
+                </div>
+            </Col>
+            <Col className='home-item-cont' xs={12} md={6}>
+                <div className='home-inner-cont'>
+                    <div className='h-title'>
+                        Events
+                    </div>
+                    <EventStatistics />
+                </div>
+            </Col>
+            <Col className='home-item-cont' xs={12} md={6}>
+                <div className='home-inner-cont'>
+                    <div className='h-title'>
+                        Riders
+                    </div>
+                    <RiderStatistics />
+                </div>
+            </Col>
+            <Col className='home-item-cont' xs={12} md={6}>
+                <div className='home-inner-cont'>
+                    <div className='h-title'>
+                        Horses
+                    </div>
+                    <HorseStatistics />
+                </div>
+            </Col>
+        </Row>
     </>
   );
 }

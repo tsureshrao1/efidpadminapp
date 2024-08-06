@@ -2,7 +2,11 @@ import { format } from 'date-fns';
 import AttachmentTable from '../../attachmentTable';
 import MemberPayment from '../../payment/memberPayments';
 import DataLabelValue from '../../DataLabelValue';
-export default function ClubMemberDetails({userData}) {
+import { Col, Form } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+export default function ClubMemberDetails({memberData, setData}) {
+    const { requestType } = useParams();
+    const isRequests = requestType ? true : false;
   const cardStyle = {
     padding: '0px'
   }
@@ -25,7 +29,7 @@ export default function ClubMemberDetails({userData}) {
                                             <div className="col-md-4">
                                                 <div className="mb-3">
                                                     <label className="form-label text-gray-dark" for="userName">User Name</label>
-                                                    <p>{userData?.efiUsers?.userName}</p>
+                                                    <p>{memberData?.efiUsers?.userName}</p>
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
@@ -38,16 +42,16 @@ export default function ClubMemberDetails({userData}) {
                                         <div className="row">
                                             <h6>Secret Q/A</h6>
                                             <div className="col-md-4">
-                                                <label className="form-label text-gray-dark" for="userName">{userData?.efiUsers?.secretQuestion1}</label>
-                                                <p>{userData?.efiUsers?.secretAnswer1}</p>
+                                                <label className="form-label text-gray-dark" for="userName">{memberData?.efiUsers?.secretQuestion1}</label>
+                                                <p>{memberData?.efiUsers?.secretAnswer1}</p>
                                             </div>
                                             <div className="col-md-4">
-                                                <label className="form-label text-gray-dark" for="userName">{userData?.efiUsers?.secretQuestion2}</label>
-                                                <p>{userData?.efiUsers?.secretAnswer2}</p>
+                                                <label className="form-label text-gray-dark" for="userName">{memberData?.efiUsers?.secretQuestion2}</label>
+                                                <p>{memberData?.efiUsers?.secretAnswer2}</p>
                                             </div>
                                             <div className="col-md-4">
-                                                <label className="form-label text-gray-dark" for="userName">{userData?.efiUsers?.secretQuestion3}</label>
-                                                <p>{userData?.efiUsers?.secretAnswer3}</p>
+                                                <label className="form-label text-gray-dark" for="userName">{memberData?.efiUsers?.secretQuestion3}</label>
+                                                <p>{memberData?.efiUsers?.secretAnswer3}</p>
                                             </div>
 
                                         </div>
@@ -75,69 +79,95 @@ export default function ClubMemberDetails({userData}) {
                                         <div className="row">
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Club Name</label>
-                                                <p>{userData?.clubName}</p>
+                                                <p>{memberData?.clubName}</p>
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Phone Number</label>
-                                                <p>{userData?.phoneNumber}</p>
+                                                <p>{memberData?.phoneNumber}</p>
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Mobile Number</label>
-                                                <p>{userData?.mobileNumber}</p>
-
+                                                <p>{memberData?.mobileNumber}</p>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <label className="form-label text-gray-dark" for="userName">Contact Name</label>
+                                                <p>{memberData?.contactName}</p>
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Email address</label>
-                                                <p>{userData?.emailId}</p>
+                                                <p>{memberData?.emailId}</p>
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Address Line 1</label>
-                                                <p>{userData?.addressLine1}</p>
+                                                <p>{memberData?.addressLine1}</p>
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Address Line 2</label>
-                                                <p>{userData?.addressLine2}</p>
+                                                <p>{memberData?.addressLine2}</p>
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Address Line 3</label>
-                                                <p>{userData?.addressLine3}</p>
+                                                <p>{memberData?.addressLine3}</p>
                                             </div>
                                             {/* <div className="col-md-4">
                                                                             <label className="form-label text-gray-dark" for="userName">Address 2</label>
-                                                                            <p>{userData?.userName}</p>
+                                                                            <p>{memberData?.userName}</p>
                                                                         </div> */}
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">City</label>
-                                                <p>{userData?.city}</p>
+                                                <p>{memberData?.city}</p>
 
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">State</label>
-                                                <p>{userData?.state}</p>
+                                                <p>{memberData?.state}</p>
 
                                             </div>
                                             <div className="col-md-4">
                                                 <label className="form-label text-gray-dark" for="userName">Pin Code</label>
-                                                <p>{userData?.pinCode}</p>
-
+                                                <p>{memberData?.pinCode}</p>
                                             </div>
+                                            { isRequests ? (<Form.Group as={Col} md="4" controlId={`validationCustom017`}>
+                                                <Form.Label>EFI Member Number</Form.Label>
+                                                <Form.Control
+                                                    required
+                                                    type="text"
+                                                    placeholder="EFI Number"
+                                                    value={memberData.efiMemberNumber}
+                                                    onChange={(e) => {
+                                                        setData({
+                                                            ...memberData,
+                                                            efiMemberNumber: e.target.value
+                                                        })
+                                                    }}
+                                                />
+                                                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                                <Form.Control.Feedback type="invalid">
+                                                    EFI required.
+                                                </Form.Control.Feedback>
+                                            </Form.Group>) : (
+                                                <div className="col-md-4">
+                                                    <label className="form-label text-gray-dark" for="userName">EFI Member Number</label>
+                                                    <p>{memberData?.efiMemberNumber}</p>
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="card-header ps-0 pb-2"><h5>Club Capability</h5></div>
                                         <div className="card-body p-0">
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <label className="form-label text-gray-dark" for="userName">Members</label>
-                                                    <p>{userData?.numberOfMembers}</p>
+                                                    <p>{memberData?.numberOfMembers}</p>
 
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label className="form-label text-gray-dark" for="userName">Horses</label>
-                                                    <p>{userData?.numberOfHorses}</p>
+                                                    <p>{memberData?.numberOfHorses}</p>
 
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label className="form-label text-gray-dark" for="userName">Instructors</label>
-                                                    <p>{userData?.numberOfInstructors}</p>
+                                                    <p>{memberData?.numberOfInstructors}</p>
 
                                                 </div>
 
@@ -146,7 +176,7 @@ export default function ClubMemberDetails({userData}) {
                                         <div className="card-header ps-0 pb-2"><h6>List of Instructors</h6></div>
                                         <div className="card-body p-0">
                                             {
-                                                userData?.clubInstructorsList?.map(instructor => (
+                                                memberData?.clubInstructorsList?.map(instructor => (
                                                     <div className="row">
                                                         <div className="col-md-4">
                                                             <label className="form-label text-gray-dark" for="userName">Instructor Name</label>
@@ -193,31 +223,31 @@ export default function ClubMemberDetails({userData}) {
                                                 <div className="col-xs=12 col-sm-6 col-lg-4" >
                                                     <DataLabelValue
                                                         label={"Riding Arena"}
-                                                        value={userData?.ridingArenaAvailable ? "Yes" : "No"}
+                                                        value={memberData?.ridingArenaAvailable ? "Yes" : "No"}
                                                     />
                                                 </div>
                                                 <div className="col-xs=12 col-sm-6 col-lg-4" >
                                                     <DataLabelValue
                                                         label={"Show Jumping Facility"}
-                                                        value={userData?.showJumpingAvailable ? "Yes" : "No"}
+                                                        value={memberData?.showJumpingAvailable ? "Yes" : "No"}
                                                     />
                                                 </div>
                                                 <div className="col-xs=12 col-sm-6 col-lg-4" >
                                                     <DataLabelValue
                                                         label={"Dressage Arena"}
-                                                        value={userData?.dressageArenaAvailable ? "Yes" : "No"}
+                                                        value={memberData?.dressageArenaAvailable ? "Yes" : "No"}
                                                     />
                                                 </div>
                                                 <div className="col-xs=12 col-sm-6 col-lg-4" >
                                                     <DataLabelValue
                                                         label={"X Country Training Facility"}
-                                                        value={userData?.xcountryTrainingAvailable ? "Yes" : "No"}
+                                                        value={memberData?.xcountryTrainingAvailable ? "Yes" : "No"}
                                                     />
                                                 </div>
                                                 <div className="col-xs=12 col-sm-6 col-lg-4" >
                                                     <DataLabelValue
                                                         label={"Tent Pegging Training facility"}
-                                                        value={userData?.tentPeggingTrainingAvailable ? "Yes" : "No"}
+                                                        value={memberData?.tentPeggingTrainingAvailable ? "Yes" : "No"}
                                                     />
                                                 </div>
                                             </div>
@@ -226,7 +256,7 @@ export default function ClubMemberDetails({userData}) {
                                         <div className="card-body p-0">
                                             <div className="row">
                                                 <div className="col-md-12">
-                                                    <p>{userData?.equestrianActivitiesDetail}</p>
+                                                    <p>{memberData?.equestrianActivitiesDetail}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -253,7 +283,7 @@ export default function ClubMemberDetails({userData}) {
                                         <div className="card-header ps-0 pb-2"><h5>Club Management (List of office Bearers with following inputs)</h5></div>
                                         <div className="card-body p-0">
                                             {
-                                                userData?.clubMembersList?.map((clubMember, index) => (
+                                                memberData?.clubMembersList?.map((clubMember, index) => (
                                                     <div key={index} className="row">
                                                         <div className="col-md-3">
                                                             <label className="form-label text-gray-dark" for="userName">Ful Name</label>
@@ -303,7 +333,7 @@ export default function ClubMemberDetails({userData}) {
                                         <div className="card-header ps-0 pb-2"><h5>SponsorsList (provide ability to add Sponsors with following details (minimum 2))</h5></div>
                                         <div className="card-body p-0">
                                             {
-                                                userData?.memberSponsorsList?.map((sponsor, index) => (
+                                                memberData?.memberSponsorsList?.map((sponsor, index) => (
                                                     <div key={index} className="row">
                                                         <div className="col-md-4">
                                                             <label className="form-label text-gray-dark" for="userName">Sponsor Full Name</label>
@@ -346,7 +376,7 @@ export default function ClubMemberDetails({userData}) {
 
                                     <div className="card-body">
                                         <div className="row">
-                                            <AttachmentTable showDelete={false} attachments={userData.fileAttachment} />
+                                            <AttachmentTable showDelete={false} attachments={memberData.fileAttachment} />
                                         </div>
 
                                     </div>
@@ -358,7 +388,7 @@ export default function ClubMemberDetails({userData}) {
 
                 </div>
             </div>
-            {userData?.efiUsers?.userId && <MemberPayment userId={userData?.efiUsers?.userId} /> }
+            {memberData?.efiUsers?.userId && <MemberPayment id={memberData?.efiUsers?.userId} type='CLUB' /> }
         </div>
     </>
   );

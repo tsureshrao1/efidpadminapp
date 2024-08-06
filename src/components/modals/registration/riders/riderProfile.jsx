@@ -37,7 +37,7 @@ const ConfirmRiderProfile = ({ rider }) => {
                 </Col>
                 <Col xs={12} sm={6} md={4}>
                     <DataLabelValue
-                        label="Father Name"
+                        label="Parent Name"
                         value={rider.fatherName}
                     />
                 </Col>

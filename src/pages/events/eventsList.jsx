@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchEventsByStatus } from '../../services/eventsService';
+import { fetchAllEvents } from '../../services/eventsService';
 import userProfilePic from '/images/rider.jpg';
 import { formatDate } from '../../services/dateutils';
 import { toast } from 'react-toastify';
@@ -19,8 +19,9 @@ export default function EventsList({eventsStatus}) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetchEventsByStatus(eventsStatus);
-                setRequestData(response);
+                const response = await fetchAllEvents();
+                const filtererdEvents = response.filter(event => event?.eventStatus?.includes(eventsStatus))
+                setRequestData(filtererdEvents);
             } catch (err) {
                 toast.error(err);
             }
