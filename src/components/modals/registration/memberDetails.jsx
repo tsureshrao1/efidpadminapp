@@ -33,8 +33,6 @@ export default function MemberDetails({data, setData, regReqType, setShow, setEr
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await getClubByUser(regReqType, userId);
-            setData(response?.data);
             setShow(true);
             setError(false);
         } catch (err) {

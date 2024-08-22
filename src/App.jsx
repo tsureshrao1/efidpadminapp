@@ -7,6 +7,9 @@ import EventsList from './pages/events/eventsList';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import ProtectedRoutes from './routes';
 import 'react-toastify/dist/ReactToastify.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+// import 'primeicons/primeicons.css';
 import { ToastContainer } from 'react-toastify';
 import { NAV_ROUTES, NAV_MODULE_NAME } from './utils/constants';
 import EventsRequests from './pages/events/eventsRequests';

@@ -32,7 +32,7 @@ export default function RegisterDetailsPopup({dataObj, setCount, count, regReqTy
         if(approve) {
           let validEFI = requestObj?.efiRegistrationNumber?.match(/^[H][0-9]+$/)?.length;
           if(validEFI != 1) {
-              toast.error('Enter valid EFI number. i.e Should start with H followed by number');
+              toast.error('Enter valid EFI Member Number. i.e Should start with H followed by number');
               return;
           }
         }
@@ -41,14 +41,14 @@ export default function RegisterDetailsPopup({dataObj, setCount, count, regReqTy
         if(approve) {
           let validEFI = requestObj?.efiRegistrationNumber?.match(/^[P][0-9]+$/)?.length;
           if(validEFI != 1) {
-              toast.error('Enter valid EFI number. i.e Should start with P followed by number');
+              toast.error('Enter valid EFI Member Number. i.e Should start with P followed by number');
               return;
           }
         }
         status = requestObj.riderStatus;
       } else {
         if(approve && !requestObj?.efiMemberNumber?.length) {
-          toast.error('EFI number is mandatory for approve.');
+          toast.error('EFI Member Number is mandatory for approve.');
           return;
         }
         if(requestType) {
@@ -198,7 +198,8 @@ export default function RegisterDetailsPopup({dataObj, setCount, count, regReqTy
             </Modal.Body>
             
             {
-              ((userData.userRole === USER_ROLES.ADMIN && initialstatus?.includes(USER_STATUS.REGISTER)) || 
+              ((userData.userRole === USER_ROLES.ADMIN && initialstatus?.includes(USER_STATUS.REGISTER) ||
+              (userData.userRole === USER_ROLES.ADMIN && initialstatus?.includes(USER_STATUS.ACTIVE) && regReqType == 'HORSE')) || 
               (userData.userRole === USER_ROLES.SEC_ADMIN && initialstatus?.includes(USER_STATUS.REVIEW)) || requestType) && (
                 <Modal.Footer>
                   <Button variant="danger" onClick={() => {setShowConfirm(true)}}>

@@ -60,7 +60,10 @@ export default function EventsList({eventsStatus}) {
                                                                                 Name
                                                                             </th>
                                                                             <th>
-                                                                                Location
+                                                                                Organizer
+                                                                            </th>
+                                                                            <th>
+                                                                                Venue
                                                                             </th>
                                                                             <th>
                                                                                 Start Date
@@ -77,13 +80,16 @@ export default function EventsList({eventsStatus}) {
                                                                             }} key={obj?.id}>
                                                                                 <td><img className="rounded-circle" style={{ "width": "40px" }} src={obj.profilePhoto || userProfilePic} alt="activity-user" /></td>
                                                                                 <td>
-                                                                                    <p className="m-0">{obj?.eventName}</p>
+                                                                                    <p className="text-muted">{obj?.eventName}</p>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <h6 className="text-muted">{obj?.eventCity}</h6>
+                                                                                    <p className="text-muted">{obj?.organizerName}</p>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <h6 className="text-muted">{formatDate(obj?.eventStartDate)}</h6>
+                                                                                    <p className="text-muted">{obj?.eventVenueAddress}</p>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <p className="text-muted">{formatDate(obj?.eventStartDate)}</p>
                                                                                 </td>
                                                                                 <td>
                                                                                     <Link to={`${NAV_ROUTES.EVENT_DETAILS.split(':')[0]}${obj.efiEventId}`} state={{

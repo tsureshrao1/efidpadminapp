@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { getAllHorses } from '../../services/apiService';
+import { approveHorse, getAllHorses } from '../../services/apiService';
 import userProfilePic from '/images/adz.png';
 import { formatDate } from '../../services/dateutils';
 import RegisterDetailsPopup from '../../components/modals/registration/detailspopup';
 import { USER_ROLES, USER_STATUS, NAV_SUB_ROUTES, STATUS_VIEW } from '../../utils/constants';
 import { useAppContext } from '../../context';
 import { useParams } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 const cardStyles = {
     padding:0,
@@ -45,19 +47,27 @@ function HorseRequests() {
     const [count, setCount] = useState(0);
     const [horseObj, setHorseObj] = useState();
     const status = userData.userRole === USER_ROLES.ADMIN ? USER_STATUS.REGISTER : USER_STATUS.REVIEW;
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getAllHorses();
-                if(viewAll) {
-                    setRequestData(response.data);
-                } else {
-                    setRequestData(response.data.filter(item => item.horseStatus.includes(status)));
-                }
-            } catch (err) {
-                alert(err);
+    const fetchData = async () => {
+        try {
+            const response = await getAllHorses();
+            if(viewAll) {
+                setRequestData(response.data.filter(item => item.horseStatus !== USER_STATUS.REGISTER && item.horseStatus !== USER_STATUS.REJECT));
+            } else {
+                setRequestData(response.data.filter(item => item.horseStatus.includes(status)));
             }
-        };
+        } catch (err) {
+            alert(err);
+        }
+    };
+    const approveRequest = async (data) => {
+        await approveHorse({
+            ...data,
+            horseStatus: USER_STATUS.ACTIVE
+        });
+        toast.success("Appproved successfully!");
+        fetchData()
+    }
+    useEffect(() => {
         fetchData();
     }, [count, reqType]);
 
@@ -109,6 +119,11 @@ function HorseRequests() {
                                                                             <th>
                                                                                 View
                                                                             </th>
+                                                                            {userData.userRole === USER_ROLES.SEC_ADMIN && (
+                                                                                <th>
+                                                                                    Action
+                                                                                </th>
+                                                                            )}
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -135,6 +150,13 @@ function HorseRequests() {
                                                                                 <td>
                                                                                     <a href="javascript:void(0);" onClick={() => {setHorseObj(obj); setShowdetailsPopup(true)}} className="f-20 me-2"><i className="fa fa-eye"></i></a>
                                                                                 </td>
+                                                                                {userData.userRole === USER_ROLES.SEC_ADMIN && (
+                                                                                    <td>
+                                                                                        { obj?.horseStatus?.includes(USER_STATUS.REVIEW) ? (<Button onClick={() => {
+                                                                                            approveRequest(obj)
+                                                                                        }}>Approve</Button>) : <></>}
+                                                                                    </td>
+                                                                                )}
                                                                             </tr>
                                                                         ))
                                                                         }

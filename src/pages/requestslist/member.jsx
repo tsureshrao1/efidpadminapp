@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
-import { fetchPendingRequestFormAdmin } from '../../services/apiService';
+import { approveUser, fetchPendingRequestFormAdmin, getClubByUser } from '../../services/apiService';
 import userProfilePic from '/images/avatar-1.jpg';
 import { formatDate } from '../../services/dateutils';
 import RegisterDetailsPopup from '../../components/modals/registration/detailspopup';
 import { STATUS_VIEW, USER_ROLES, USER_STATUS } from '../../utils/constants';
 import { useAppContext } from '../../context';
 import { useParams } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import EFIMemberNumber from '../../components/efiMemberNumber';
 
 
 const cardStyles = {
@@ -48,21 +51,36 @@ function MemberRequest() {
     const isRequests = requestType ? true : false;
     const reqType = requestType || userType;
     const [regReqType, setRegReqType] = useState('')
-    useEffect(() => {
+    
+    const fetchData = async () => {
         const reqParam = reqType.substring(0,4).toUpperCase();
-        const fetchData = async () => {
-            try {
-                const response = await fetchPendingRequestFormAdmin(reqParam, status, isRequests);
-                if(isRequests) {
-                    setRequestData(response.data.filter(user => user.memberType === reqParam));
-                } else {
-                    setRequestData(response.data)
-                }
-                setRegReqType(reqParam);
-            } catch (err) {
-                alert(err);
+        try {
+            const response = await fetchPendingRequestFormAdmin(reqParam, status, isRequests);
+            if(isRequests) {
+                setRequestData(response.data.filter(user => user.memberType === reqParam));
+            } else {
+                setRequestData(response.data.filter(user => user.status && user.status !== USER_STATUS.REGISTER && user.status !== USER_STATUS.REJECT))
             }
-        };
+            setRegReqType(reqParam);
+        } catch (err) {
+            alert(err);
+        }
+    };
+    const approveRequest = async (data) => {
+        await approveUser({
+            ...data,
+            status: USER_STATUS.ACTIVE
+        });
+        toast.success("Appproved successfully!");
+        fetchData();
+    }
+    const viewDetails = async(obj) => {
+        const {userId} = obj;
+        const response = await getClubByUser(regReqType, userId);
+        setUserObj(response?.data);
+        setShowdetailsPopup(true);
+    }
+    useEffect(() => {
         fetchData();
     }, [requestType, count, userType]);
 
@@ -100,7 +118,7 @@ function MemberRequest() {
                                                                                 Name
                                                                             </th>
                                                                             <th>
-                                                                                EFI Number
+                                                                                EFI Member Number
                                                                             </th>
                                                                             <th>
                                                                                 Registered Date
@@ -111,6 +129,11 @@ function MemberRequest() {
                                                                             <th>
                                                                                 View
                                                                             </th>
+                                                                            {isRequests && userData.userRole === USER_ROLES.SEC_ADMIN && (
+                                                                                <th>
+                                                                                    Action
+                                                                                </th>
+                                                                            )}
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -123,7 +146,13 @@ function MemberRequest() {
                                                                                     <p className="m-0">{obj?.userName || obj.clubName || obj.instituteName || obj.individualName || obj.lifeTimeIndividualName}</p>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <h6 className="text-muted">{obj?.efiMemberNumber}</h6>
+                                                                                    {
+                                                                                        obj?.efiMemberNumber ? (
+                                                                                            <h6 className="text-muted">{obj?.efiMemberNumber}</h6>
+                                                                                        ) : (
+                                                                                            <EFIMemberNumber userId={obj?.userId} type={reqType.substring(0,4).toUpperCase()}  />
+                                                                                        )
+                                                                                    }
                                                                                 </td>
                                                                                 <td>
                                                                                     <h6 className="text-muted">{formatDate(obj?.createdDate)}</h6>
@@ -132,8 +161,15 @@ function MemberRequest() {
                                                                                     {STATUS_VIEW[obj.status] || 'Registered'}
                                                                                 </td>
                                                                                 <td>
-                                                                                    <a href="javascript:void(0);" onClick={() => {setUserObj(obj); setShowdetailsPopup(true)}} className="f-20 me-2"><i className="fa fa-eye"></i></a>
+                                                                                    <a href="javascript:void(0);" onClick={() => {viewDetails(obj);}} className="f-20 me-2"><i className="fa fa-eye"></i></a>
                                                                                 </td>
+                                                                                {isRequests && userData.userRole === USER_ROLES.SEC_ADMIN && (
+                                                                                    <td>
+                                                                                        {obj?.status?.includes(USER_STATUS.REVIEW) ? (<Button onClick={() => {
+                                                                                            approveRequest(obj)
+                                                                                        }}>Approve</Button>) : <></>}
+                                                                                    </td>
+                                                                                )}
                                                                             </tr>
                                                                         ))
                                                                         }

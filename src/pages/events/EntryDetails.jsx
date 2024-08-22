@@ -62,9 +62,9 @@ export const EntryDetails = ({entryObj, approveEntry}) => {
                 <thead>
                     <tr>
                         <th>Raider Club Name</th>
-                        <th>Raider EFI Number</th>
+                        <th>Raider EFI Member Number</th>
                         <th>Horse Club/Owner Name</th>
-                        <th>Horse EFI Number</th>
+                        <th>Horse EFI Member Number</th>
                     </tr>
                 </thead>
                 <thead>

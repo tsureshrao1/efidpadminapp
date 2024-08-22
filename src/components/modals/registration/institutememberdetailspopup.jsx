@@ -130,7 +130,7 @@ export default function InstituteMemberDetails({memberData, setData}) {
                                                 <Form.Control
                                                     required
                                                     type="text"
-                                                    placeholder="EFI Number"
+                                                    placeholder="EFI Member Number"
                                                     value={memberData.efiMemberNumber}
                                                     onChange={(e) => {
                                                         setData({
@@ -141,7 +141,7 @@ export default function InstituteMemberDetails({memberData, setData}) {
                                                 />
                                                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                                 <Form.Control.Feedback type="invalid">
-                                                    EFI required.
+                                                    EFI Member Number required.
                                                 </Form.Control.Feedback>
                                             </Form.Group>
                                         ) : (

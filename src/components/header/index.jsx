@@ -116,10 +116,10 @@ function AdminHeaderSection({ isLogin = false }) {
                                                                             lineHeight: '20px'
                                                                         }} className="fa fa-chevron-right"></i></a>
                                                                         <ul className="sub-menu">
-                                                                            <li><Link to={NAV_VIEW_ROUTES.CLUBS}>CLUBS</Link></li>
-                                                                            <li><Link to={NAV_VIEW_ROUTES.INSTITUTES}>INSTITUTES</Link></li>
-                                                                            <li><Link to={NAV_VIEW_ROUTES.INDIVIDUALS}>INDIVIDUALS</Link></li>
-                                                                            <li><Link to={NAV_VIEW_ROUTES.LIFETIMEINDIVIDUALS}>LIFETIME INDIVIDUALS</Link></li>
+                                                                            <li><Link to={NAV_VIEW_ROUTES.CLUBS}>CLUB</Link></li>
+                                                                            <li><Link to={NAV_VIEW_ROUTES.INSTITUTES}>INSTITUTION</Link></li>
+                                                                            <li><Link to={NAV_VIEW_ROUTES.INDIVIDUALS}>INDIVIDUAL</Link></li>
+                                                                            <li><Link to={NAV_VIEW_ROUTES.LIFETIMEINDIVIDUALS}>LIFE MEMBER</Link></li>
                                                                         </ul>
                                                                     </li>
                                                                     <li><Link to={NAV_VIEW_ROUTES.HORSE}>Horses</Link></li>
@@ -136,10 +136,10 @@ function AdminHeaderSection({ isLogin = false }) {
                                                                 lineHeight: '20px'
                                                             }} className="fa fa-chevron-right"></i></a>
                                                                         <ul className="sub-menu">
-                                                                            <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.CLUBS ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.CLUBS}>CLUBS</Link></li>
-                                                                            <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.INSTITUTES ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.INSTITUTES}>INSTITUTES</Link></li>
-                                                                            <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.INDIVIDUALS ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.INDIVIDUALS}>INDIVIDUALS</Link></li>
-                                                                            <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.LIFETIMEINDIVIDUALS ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.LIFETIMEINDIVIDUALS}>LIFETIME INDIVIDUALS</Link></li>
+                                                                            <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.CLUBS ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.CLUBS}>CLUB</Link></li>
+                                                                            <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.INSTITUTES ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.INSTITUTES}>INSTITUTION</Link></li>
+                                                                            <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.INDIVIDUALS ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.INDIVIDUALS}>INDIVIDUAL</Link></li>
+                                                                            <li className={pathDetails[3] === NAV_REQUEST_SUB_ROUTES.LIFETIMEINDIVIDUALS ? "active" : ''}><Link to={NAV_REQUEST_ROUTES.LIFETIMEINDIVIDUALS}>LIFE MEMBER</Link></li>
                                                                         </ul>
                                                                     </li>
                                                                     <li><Link to={NAV_REQUEST_ROUTES.HORSE}>Horse Request</Link></li>

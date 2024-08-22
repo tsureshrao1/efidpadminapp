@@ -1,82 +1,199 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from "react";
 
-import { uploadFile } from '../../services/apiService';
+import { uploadFile } from "../../services/apiService";
+import { Toast } from 'primereact/toast';
+const generalOptions = [
+  "registration Certificate",
+  "Rules And Regulations",
+  "list of Office Bearers",
+  "list of Committe Members",
+  "list of Club Members",
+  "Bank Passbook",
+  "Other"
+]
 
-const FileUploader = ({ onFileSelect, showFileTypeDropdown = true }) => {
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [uploadMessage, setUploadMessage] = useState('');
-    const [documentType, setDocumentType] = useState(undefined);
-    const fileInputRef = useRef(null);
+const eventOptions = [
+  "Rules And Regulations",
+  "Brochure",
+  "Prospectus",
+  "Other"
+]
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
-    };
+const riderOptions = [
+  "DOB document",
+  "EFI Registration Document",
+  "Club Registration Document",
+  "Other"
+];
 
-    const handleChange = (event) => {
-        const { value } = event.target;
-        setDocumentType(value);
+const horseOptions = [
+  "Passport",
+  "EFI Registration Document",
+  "Other"
+];
+
+const userOptions = [
+  "Proof of DOB",
+  "Proof of Address",
+  "Other"
+]
+
+const horseAdmin = [
+    "Horse Passport Form",
+    "Other"
+  ]
+
+const FileUploader = ({ onFileSelect, showFileTypeDropdown = true, doc, fileAttachment = [], isEvent = false, attachType='default' }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadMessage, setUploadMessage] = useState("");
+  let options = isEvent ? eventOptions : generalOptions;
+  if(isEvent) {
+    options = eventOptions
+  } else if(attachType === 'rider') {
+    options = riderOptions
+  } else if(attachType === 'horse') {
+    options = horseOptions
+  } else if (attachType === 'user') {
+    options = userOptions
+  } else if(attachType === 'horseAdmin') {
+    options = horseAdmin;
+  }
+  const [documentType, setDocumentType] = useState(options[0]);
+  const fileInputRef = useRef(null);
+  const [otherFileType, setOtherFileType] = useState(undefined);
+  const toast = useRef(null);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+  const remainOptions = useMemo(() => {
+    if (fileAttachment) {
+      return options.filter((option) => {
+        return !fileAttachment.some((item) => item.attachmentType === option);
+      })
+    } else {
+      return options;
+    }
+  }, [fileAttachment, options]);
+  const handleOtherFileUploadName = (event) => {
+    const { value } = event.target;
+    setOtherFileType(value);
+  }
+
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setDocumentType(value);
+  };
+
+  const resetFileInput = () => {
+    setSelectedFile(null);
+    fileInputRef.current.value = "";
+  };
+
+  const handleFileUpload = async (e) => {
+    e.preventDefault();
+    if (!selectedFile) {
+      setUploadMessage("No file selected");
+      return;
     }
 
-    const resetFileInput = () => {
-        setSelectedFile(null);
-        fileInputRef.current.value = '';
-    };
+    const obj = {};
+    obj.attachmentType = doc ? doc : documentType == "Other" ? otherFileType : documentType;
+    obj.attachmentName = selectedFile.name;
+    let index = fileAttachment.findIndex((item) => item.attachmentType === obj.attachmentType);
+    if (index > -1) {
+      toast.current.show({
+        severity: "warn",
+        summary: "File upload",
+        detail: "Attachment Name already exist in below list",
+      });
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("fileVo", JSON.stringify(obj));
 
-    const handleFileUpload = async (e) => {
-        e.preventDefault();
-        if (!selectedFile) {
-            setUploadMessage('No file selected');
-            return;
-        }
+    try {
+      const createdItem = await uploadFile(formData);
+      // alert("Attachment uploaded successfully");
+      toast.current.show({
+        severity: "success",
+        summary: "File upload",
+        detail: "Attachment uploaded successfully",
+      });
+      resetFileInput();
+      createdItem.attachmentType = doc ? doc : documentType == "Other" ? otherFileType : documentType;
+      onFileSelect(createdItem);
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    }
+  };
 
-        const obj = {};
-        obj.attachmentType = documentType;
-        obj.attachmentName = selectedFile.name;
+  return (
+    <div className="row">
 
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-        formData.append('fileVo', JSON.stringify(obj));
-
-        try {
-            const createdItem = await uploadFile(formData);
-            alert("Attachment uploaded successfully");
-            onFileSelect(createdItem);
-        } catch (error) {
-            console.log(error);
-            alert(error);
-        }
-    };
-
-    return (
-        <div className="row">
-            {
-                showFileTypeDropdown &&
-
-                <div className="col-md-4">
-                    <div className="mb-3">
-                        <label className="form-label" for="exampleFormControlSelect1">Upload Documents</label>
-                        <select className="form-select" id="exampleFormControlSelect1" onChange={(e) => handleChange(e)} >
-                            <option>registration Certificate</option>
-                            <option>StateEquestrian Association NOC</option>
-                            <option>Rules And Regulations</option>
-                            <option>list of Office Bearers</option>
-                            <option>list of Committe Members</option>
-                            <option>list of Club Members</option>
-                            <option>Bank Passbook</option>
-                            <option>Non-Standard Document</option>
-                        </select>
-                    </div>
-                </div>
-            }
-            <div className="col-md-6" className={`col-md-${showFileTypeDropdown ? '6' : '10'}`}>
-                <input name="file" id="file" type="file" className="form-control mt-lbl" data-bouncer-target="#file-error-msg" required="" ref={fileInputRef} onChange={handleFileChange} />
-            </div>
-            <div className="col-md-2">
-                <button className="btn btn-primary mt-lbl" onClick={handleFileUpload}>Upload</button>
-            </div>
+      {showFileTypeDropdown && (
+        <div className="col-md-3">
+          <div className="mb-3">
+            <label className="form-label" for="exampleFormControlSelect1">
+              Upload Documents
+            </label>
+            <select
+              className="form-select"
+              id="exampleFormControlSelect1"
+              onChange={(e) => handleChange(e)}
+            >
+              {
+                remainOptions.map((option, index) => (
+                  <option key={index} >{option}</option>
+                ))
+              }
+            </select>
+          </div>
         </div>
-    );
+      )}
+      {documentType == "Other" && (
+        <div className="col-md-3">
+          <div className="mb-3">
+            <label className="form-label" for="">
+              Attachement Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id=""
+              name="other"
+              aria-describedby=""
+              placeholder=""
+              value={otherFileType}
+              onChange={(e) => handleOtherFileUploadName(e)}
+            />
+          </div>
+        </div>
+      )}
+      <div
+        className={`col-md-5 col-md-${showFileTypeDropdown ? documentType == "Other" ? '5' : "6" : "10"}`}
+      >
+        <Toast ref={toast} position="bottom-center" />
+        <input
+          name="file"
+          id="file"
+          type="file"
+          className={`form-control ${showFileTypeDropdown ? 'mt-4' : ''}`}
+          data-bouncer-target="#file-error-msg"
+          required=""
+          ref={fileInputRef}
+          onChange={handleFileChange}
+        />
+      </div>
+      <div className="col-md-1">
+        <button className={`btn btn-primary ${showFileTypeDropdown ? 'mt-4' : ''}`} onClick={handleFileUpload}>
+          Upload
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default FileUploader;

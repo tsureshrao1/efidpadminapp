@@ -55,7 +55,7 @@ const ConfirmRiderIdentityDetails = ({ rider, setData }) => {
                                 <Form.Control
                                     required
                                     type="text"
-                                    placeholder="EFI Number"
+                                    placeholder="EFI Member Number"
                                     value={rider.efiRegistrationNumber}
                                     onChange={(e) => {
                                         setData({

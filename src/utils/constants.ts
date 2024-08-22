@@ -35,10 +35,10 @@ export const NAV_ROUTES = {
     EVENT_DETAILS: `/${NAV_MODULE_NAME}/${NAV_SUB_ROUTES.EVENT}/${NAV_EVENT_SUB_ROUTES.EVENT_DETAILS}/:eventId`,
 }
 export const NAV_REQUEST_SUB_ROUTES = {
-    CLUBS: 'clubs',
-    INSTITUTES: 'institutes',
-    INDIVIDUALS: 'individuals',
-    LIFETIMEINDIVIDUALS: 'lifetime-individuals',
+    CLUBS: 'club',
+    INSTITUTES: 'institution',
+    INDIVIDUALS: 'individual',
+    LIFETIMEINDIVIDUALS: 'life-member',
     HORSE: 'horse',
     RIDER: 'rider'
 }
@@ -167,3 +167,50 @@ export const STATUS_VIEW = {
     PUBLISHED_REVIEWED: 'Reviewed for new changes',
     PUBLISHED_REJECTED: 'Rejected new changes'
 }
+
+export const dressingGrades = [
+    "Prelim",
+    "Elementary",
+    "Medium",
+    "Advance Medium",
+    "Advance",
+    "Prix St George",
+    "Intermediate-I"
+]
+
+export const jumpingGrades = [
+    "Prelim",
+    "Novice",
+    "Gde-III",
+    "Gde-II",
+    "Gde-I",
+    "Grand Prix"
+]
+export const eventingGrades = [
+    "Pre-Novice",
+    "Novice",
+    "CNC One Star",
+    "CCN One Star",
+    "CNC Two Star",
+    "CCN Two Star",
+    "Eventing –CNC Three Star",
+    "CCN Three Star"
+]
+export const enduranceGrades = [
+    "Pre-Novice(40 to 59 KM)",
+    "Novice(60 to 79 KM)",
+    "Intermediate(80 to 119 KM)",
+    "Advance(120 KM)"
+]
+
+export const tentPeggingGrades = [
+    "Lance (Individual)",
+    "Lance(Team)",
+    "Sword(Individual)",
+    "Sword(Team)",
+    "Paired(Lance & Sword)",
+    "Indian File(Lance & Sword)",
+    "Rings & Peg – Lance",
+    "Lemon & Peg – Sword"
+
+]

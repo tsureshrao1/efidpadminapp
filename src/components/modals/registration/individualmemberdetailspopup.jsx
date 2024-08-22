@@ -21,7 +21,7 @@ export default function IndividualDetails({memberData, setData}) {
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Institute Login Details
+                                        Individual Login Details
                                     </button>
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
@@ -147,7 +147,7 @@ export default function IndividualDetails({memberData, setData}) {
                                                             <Form.Control
                                                                 required
                                                                 type="text"
-                                                                placeholder="EFI Number"
+                                                                placeholder="EFI Member Number"
                                                                 value={memberData.efiMemberNumber}
                                                                 onChange={(e) => {
                                                                     setData({
@@ -158,7 +158,7 @@ export default function IndividualDetails({memberData, setData}) {
                                                             />
                                                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                                             <Form.Control.Feedback type="invalid">
-                                                                EFI required.
+                                                                EFI Member Number required.
                                                             </Form.Control.Feedback>
                                                         </Form.Group>
                                                     ) : (
@@ -188,7 +188,7 @@ export default function IndividualDetails({memberData, setData}) {
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                        Institute Equestrian Details
+                                        Equestrian Details
                                     </button>
                                 </h2>
                                 <div id="collapseFive" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">

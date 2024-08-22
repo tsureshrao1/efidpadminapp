@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { fetchAllRiders } from '../../services/apiService';
+import { approveRider, fetchAllRiders } from '../../services/apiService';
 import userProfilePic from '/images/gal.jpg';
 import { formatDate } from '../../services/dateutils';
 import RegisterDetailsPopup from '../../components/modals/registration/detailspopup';
 import { USER_ROLES, USER_STATUS, NAV_SUB_ROUTES, STATUS_VIEW } from '../../utils/constants';
 import { useAppContext } from '../../context';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Button } from 'react-bootstrap';
 
 
 const cardStyles = {
@@ -46,19 +48,27 @@ function HorseRequests() {
     const [count, setCount] = useState(0);
     const [riderObj, setRiderObj] = useState();
     const status = userData.userRole === USER_ROLES.ADMIN ? USER_STATUS.REGISTER : USER_STATUS.REVIEW;
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetchAllRiders();
-                if(viewAll) {
-                    setRequestData(response);
-                } else {
-                    setRequestData(response.filter(item => item.riderStatus.includes(status)));
-                }
-            } catch (err) {
-                alert(err);
+    const fetchData = async () => {
+        try {
+            const response = await fetchAllRiders();
+            if(viewAll) {
+                setRequestData(response.filter(item => item.riderStatus !== USER_STATUS.REGISTER && item.riderStatus !== USER_STATUS.REJECT));
+            } else {
+                setRequestData(response.filter(item => item.riderStatus.includes(status)));
             }
-        };
+        } catch (err) {
+            alert(err);
+        }
+    };
+    const approveRequest = async (data) => {
+        await approveRider({
+            ...data,
+            riderStatus: USER_STATUS.ACTIVE
+        });
+        toast.success("Appproved successfully!");
+        fetchData();
+    }
+    useEffect(() => {
         fetchData();
     }, [count, reqType]);
 
@@ -110,6 +120,11 @@ function HorseRequests() {
                                                                             <th>
                                                                                 View
                                                                             </th>
+                                                                            {userData.userRole === USER_ROLES.SEC_ADMIN && (
+                                                                                <th>
+                                                                                    Action
+                                                                                </th>
+                                                                            )}
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -136,6 +151,13 @@ function HorseRequests() {
                                                                                 <td>
                                                                                     <a href="javascript:void(0);" onClick={() => {setRiderObj(obj); setShowdetailsPopup(true)}} className="f-20 me-2"><i className="fa fa-eye"></i></a>
                                                                                 </td>
+                                                                                {userData.userRole === USER_ROLES.SEC_ADMIN && (
+                                                                                    <td>
+                                                                                        {obj?.riderStatus?.includes(USER_STATUS.REVIEW) ? (<Button onClick={() => {
+                                                                                            approveRequest(obj)
+                                                                                        }}>Approve</Button>) : <></>}
+                                                                                    </td>
+                                                                                )}
                                                                             </tr>
                                                                         ))
                                                                         }
